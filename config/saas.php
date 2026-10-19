@@ -4,6 +4,7 @@
  * EticaretQ — SaaS ürün ailesi yapılandırması (marka, planlar, kayıt varsayılanları).
  */
 return [
+    'site_maintenance' => (bool) env('SITE_MAINTENANCE', false),
     'family' => 'eticaretq',
     'app_base' => env('SAAS_APP_BASE', rtrim(env('APP_URL', 'https://eticaretq.com'), '/') . '/app'),
 
