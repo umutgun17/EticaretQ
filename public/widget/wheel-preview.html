@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>Çark Önizleme</title>
+  <style>
+    body { margin: 0; min-height: 100vh; display: flex; align-items: center; justify-content: center;
+      background: radial-gradient(120% 120% at 50% 0%, #334155, #0f172a);
+      font-family: system-ui, -apple-system, sans-serif; color: #e2e8f0; }
+    .yw-note { position: fixed; top: 0; left: 0; right: 0; text-align: center; padding: 10px 16px;
+      background: rgba(2,6,23,0.6); font-size: 13px; backdrop-filter: blur(4px); z-index: 10; }
+    .yw-empty { text-align: center; opacity: 0.7; font-size: 14px; line-height: 1.6; }
+  </style>
+</head>
+<body>
+  <div class="yw-note">🧪 <strong>Önizleme modu</strong> — test kayıtları raporlara karışmaz, sınırsız test edebilirsiniz. (Token 30 dk geçerli.)</div>
+  <div class="yw-empty" id="yw-fallback">
+    Çark yükleniyor…<br>
+    <small>Görünmüyorsa kampanyada en az 2 dilim olduğundan ve sayfayı panelden “Test Et” ile açtığınızdan emin olun.</small>
+  </div>
+  <script>
+    (function () {
+      // CSS'i wheel.js kendi enjekte eder (script src'sindeki ?v=Date.now() ile senkron, cache atlanır).
+      var p = new URLSearchParams(location.search);
+      var tenant = p.get('tenant'), campaign = p.get('campaign'), token = p.get('token');
+      if (!tenant || !campaign || !token) {
+        document.getElementById('yw-fallback').textContent = 'Eksik parametre. Lütfen paneldeki “Test Et” butonunu kullanın.';
+        return;
+      }
+      var s = document.createElement('script');
+      // Önizleme/test her zaman güncel widget'ı yüklesin (tarayıcı cache'ini atla).
+      s.src = '/widget/wheel.js?v=' + Date.now();
+      s.setAttribute('data-tenant', tenant);
+      s.setAttribute('data-campaign', campaign);
+      s.setAttribute('data-preview', '1');
+      s.setAttribute('data-token', token);
+      // A/B ikinci oyun önizlemesi: ?variant=scratch → kazı kazan kartı
+      if (p.get('variant') === 'scratch' || p.get('variant') === 'b') s.setAttribute('data-variant', 'b');
+      s.defer = true;
+      document.body.appendChild(s);
+    })();
+  </script>
+</body>
+</html>

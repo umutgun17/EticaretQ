@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bugün Kargoda — widget testi</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; color: #222; }
+  .Formline { display: flex; gap: 6px; padding: 4px 0; }
+  .lineTitle { color: #777; }
+  .spanFiyat { font-size: 22px; font-weight: 700; }
+  h1 { font-size: 20px; }
+  .note { margin-top: 24px; font-size: 12px; color: #888; }
+</style>
+</head>
+<body>
+  <h1>Çok Bölmeli Çapraz Çanta (test ürünü)</h1>
+
+  <!-- Ticimax ürün detay fiyat bloğu taklidi — widget bunun hemen altına eklenmeli -->
+  <div id="pnlFiyatlar">
+    <div id="divFiyatAlanlari">
+      <div class="urunDetayFiyatContainer">
+        <div class="Formline">
+          <span class="lineTitle">Fiyat :</span>
+          <span class="spanFiyat">₺292,47</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="Formline"><span class="lineTitle">Barkod :</span><span>8682693586638</span></div>
+
+  <!-- Beden/varyasyon taklidi -->
+  <div id="divUrunEkSecenek" class="Formline">
+    <span class="lineTitle">Beden :</span>
+    <span>S · M · L · XL</span>
+  </div>
+
+  <!-- Satın alma bloğu taklidi — widget bunun HEMEN ÖNÜNE gelmeli -->
+  <div class="buybutton" id="divSatinAl">
+    <button style="padding:12px 28px;background:#111;color:#fff;border:0;border-radius:8px;font-size:15px;">SEPETE EKLE</button>
+  </div>
+
+  <p class="note">Beklenen: beden ile SEPETE EKLE arasında yeşil (gün içi) / turuncu (son saat) sayaç
+  ya da mavi "yarın kargoda" rozeti. Sayaç saniyede bir işler, cutoff geçince otomatik döner.</p>
+
+  <script src="/widget/shipping.js?v=2" data-tenant="tonnyblack" async></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>404 Sayfası — Demo</title>
+<style>
+  body { margin:0; font-family:-apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color:#111827; background:#fff; }
+  header { padding:14px; border-bottom:1px solid #eef0f3; font-weight:800; letter-spacing:.14em; }
+  .old404 { padding:60px 16px; text-align:center; color:#6b7280; }
+  .old404 h1 { font-size:20px; color:#111827; }
+</style>
+</head>
+<body>
+<!-- Mağazanın varsayılan (sade) 404 ekranı: widget bunun üstüne kendi şablonunu çizer -->
+<header>MAĞAZA</header>
+<div class="old404 pageNotFound"><h1>404 — Sayfa bulunamadı</h1><p>Aradığınız sayfa bulunamadı.</p></div>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var s = document.createElement('script');
+    s.src = '/widget/notfound.js?v=' + Date.now();
+    s.setAttribute('data-tenant', q.get('tenant') || 'tonnyblack');
+    s.setAttribute('data-api', location.origin);
+    s.setAttribute('data-demo', '1');
+    s.setAttribute('data-force', '1');
+    s.setAttribute('data-path', q.get('path') || '/erkek-siyah-deri-bot-tb242-0-9999');
+    if (q.get('tpl')) s.setAttribute('data-tpl', q.get('tpl'));
+    if (q.get('content')) s.setAttribute('data-content', q.get('content'));
+    document.body.appendChild(s);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Yunbi 360° — Model Karşılaştırma</title>
+<script type="module" src="model-viewer.min.js?v=431"></script>
+<style>
+  :root{--bg:#f6f7f9;--card:#fff;--ink:#1a1d21;--muted:#6b7280;--accent:#e8590c;--line:#e5e7eb}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;background:var(--bg);color:var(--ink)}
+  header{background:var(--card);border-bottom:1px solid var(--line);padding:16px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  header h1{font-size:18px;font-weight:700}
+  header .badge{background:#fff3e8;color:var(--accent);font-size:12px;font-weight:600;padding:4px 10px;border-radius:999px}
+  main{max-width:1200px;margin:24px auto;padding:0 16px;display:grid;grid-template-columns:repeat(auto-fit,minmax(340px,1fr));gap:18px}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden}
+  .card h2{font-size:13px;font-weight:600;padding:12px 14px;border-bottom:1px solid var(--line)}
+  .card h2 small{display:block;font-weight:400;color:var(--muted);margin-top:2px}
+  model-viewer{width:100%;height:360px;background:#fff}
+  .ref img{width:100%;height:360px;object-fit:contain;background:#fff}
+  .foot{font-size:12px;color:var(--muted);padding:10px 14px;border-top:1px solid var(--line)}
+</style>
+</head>
+<body>
+<header>
+  <h1>Yunbi · 360° Model Karşılaştırma</h1>
+  <span class="badge">TBZER020 — hepsi aynı üründen üretildi</span>
+</header>
+<main id="grid">
+  <section class="card ref">
+    <h2>REFERANS — Gerçek ürün fotoğrafı<small>Ticimax'teki mevcut kare</small></h2>
+    <img src="https://static.ticimax.cloud/cdn-cgi/image/width=800,quality=90/59755/uploads/urunresimleri/buyuk/termo-taban-yani-seritli-bagcikli-kadi-a-4cad.jpg" alt="Referans">
+    <div class="foot">Hedef: modelin buna benzemesi</div>
+  </section>
+  <section class="card">
+    <h2>A — Tripo v3.1 · doku: detaylı<small>Girdi: yan profil karesi · 40 kredi · 3,1 MB</small></h2>
+    <model-viewer data-src="tbzer020_v31_draco.glb?v=1" camera-controls shadow-intensity="0.9" exposure="1.05" camera-orbit="30deg 80deg 105%"></model-viewer>
+    <div class="foot">360-demo sayfasındaki güncel model</div>
+  </section>
+  <section class="card">
+    <h2>B — Tripo v3.1 · doku: detaylı<small>Girdi: 3/4 açı karesi (çift ayakkabı) · 40 kredi · 4,2 MB</small></h2>
+    <model-viewer data-src="tbzer020_B_draco.glb?v=1" camera-controls shadow-intensity="0.9" exposure="1.05" camera-orbit="30deg 80deg 105%"></model-viewer>
+    <div class="foot">Farklı girdi açısının etkisi</div>
+  </section>
+  <section class="card">
+    <h2>C — Tripo v3.1 · doku + geometri: detaylı<small>Girdi: yan profil karesi · 60 kredi · 3,7 MB</small></h2>
+    <model-viewer data-src="tbzer020_C_draco.glb?v=1" camera-controls shadow-intensity="0.9" exposure="1.05" camera-orbit="30deg 80deg 105%"></model-viewer>
+    <div class="foot">Maksimum kalite ayarı</div>
+  </section>
+  <section class="card">
+    <h2>D — Tripo v2.5 (ilk deneme)<small>Girdi: yan profil karesi · 30 kredi · 13,8 MB</small></h2>
+    <model-viewer data-src="tbzer020_orig.glb?v=3" camera-controls shadow-intensity="0.9" exposure="1.05" camera-orbit="30deg 80deg 105%"></model-viewer>
+    <div class="foot">Eski sürüm — kıyas için</div>
+  </section>
+</main>
+<script type="module">
+  const MV = customElements.get('model-viewer') || (await customElements.whenDefined('model-viewer'), customElements.get('model-viewer'));
+  MV.dracoDecoderLocation = new URL('./draco/', location.href).href;
+  document.querySelectorAll('model-viewer[data-src]').forEach(m => { m.src = m.dataset.src; });
+</script>
+</body>
+</html>

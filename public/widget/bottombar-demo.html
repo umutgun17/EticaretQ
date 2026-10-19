@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Yunbi Mobil Alt Bar — Demo</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#eef0f4;color:#111827}
+    /* ── galeri modu: birden çok telefon çerçevesi ── */
+    .gal{display:flex;flex-wrap:wrap;gap:22px;justify-content:center;padding:26px 16px 40px}
+    .ph{width:300px;background:#111;border-radius:38px;padding:10px;box-shadow:0 20px 50px rgba(0,0,0,.25);position:relative}
+    .ph .scr{background:#fff;border-radius:30px;overflow:hidden;height:560px;position:relative}
+    .ph iframe{width:100%;height:100%;border:0;display:block}
+    .ph .nm{text-align:center;color:#fff;font-size:13px;font-weight:600;padding:10px 0 2px;letter-spacing:.3px}
+    .ph .nm small{display:block;color:#9ca3af;font-weight:400;font-size:11px;margin-top:2px}
+    .gh{padding:26px 16px 0;text-align:center}
+    .gh h1{margin:0 0 4px;font-size:22px}.gh p{margin:0;color:#6b7280;font-size:14px}
+    /* ── tek telefon modu (iframe içi): sahte mağaza sayfası ── */
+    .store{max-width:480px;margin:0 auto;background:#fff;min-height:100vh}
+    .top{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid #f1f2f5}
+    .top .logo{font-weight:800;letter-spacing:1px;font-size:17px}
+    .top .ic{display:flex;gap:14px;color:#374151}.top .ic svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7}
+    .hero{margin:10px 12px;border-radius:14px;background:linear-gradient(135deg,#111827,#374151);color:#fff;padding:22px 16px;font-weight:800;font-size:20px;line-height:1.15}
+    .hero small{display:block;font-weight:500;font-size:12px;opacity:.75;margin-top:6px}
+    .chips{display:flex;gap:8px;padding:2px 12px 10px;overflow:auto}.chips span{white-space:nowrap;border:1px solid #e5e7eb;border-radius:999px;padding:6px 12px;font-size:12px;color:#374151}
+    .grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 12px 100px}
+    .card{border-radius:12px;overflow:hidden;background:#fff}
+    .card .im{aspect-ratio:3/4;background:#f3f4f6;display:flex;align-items:center;justify-content:center;color:#d1d5db}.card .im svg{width:34px;height:34px;stroke:currentColor;fill:none;stroke-width:1.4}
+    .card .im.a{background:#f1f5f9}.card .im.b{background:#f5f3ff}.card .im.c{background:#fdf2f8}.card .im.d{background:#ecfdf5}
+    .ln{height:9px;border-radius:5px;background:#e5e7eb;margin:8px 4px 0}.ln.s{width:60%}.ln.p{width:40%;background:#cbd5e1;margin-top:10px;height:11px}
+    .card .nm{font-size:12px;line-height:1.3;padding:8px 4px 0;color:#111827;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+    .card .pr{padding:4px 4px 8px;font-weight:700;font-size:13px}.card .pr s{color:#9ca3af;font-weight:400;font-size:11px;margin-left:6px}
+    .note{position:fixed;top:8px;left:8px;right:8px;z-index:5;background:rgba(17,24,39,.85);color:#fff;font-size:11px;border-radius:10px;padding:7px 10px;text-align:center}
+  </style>
+</head>
+<body>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var tenant = q.get('tenant') || 'tonnyblack';
+    var preset = q.get('preset') || '';
+    var gallery = q.get('gallery') === '1';
+    var cart = q.get('cart') || '3';
+    var name = q.get('name') || '';
+    var path = q.get('path') || '/kadin-spor-ayakkabi';
+    var themeJson = q.get('theme') || '';
+    var active = q.get('active') || 'home';
+    if (gallery) {
+      var presets = [['classic', 'Klasik', 'Beyaz zemin, aktif sekmede üst çizgi'], ['soft', 'Yumuşak', 'Aktif ikonun arkasında pastel daire'], ['expand', 'Genişleyen', 'Yalnız aktif sekme etiketli hap olarak açılır'], ['pill', 'Kapsül', 'Yüzen kapsül, aktif ikon dolu kare'], ['float', 'Orta Buton', 'Ortada yükseltilmiş daire buton'], ['gradient', 'Gradyan', 'Vurgu renkli zemin, beyaz ikonlar'], ['dark', 'Koyu', 'Siyah zemin, ışıltılı aktif sekme'], ['minimal', 'İnce Çizgi', 'En sade: ince bar, alt çizgi']];
+
+      document.body.innerHTML = '<div class="gh"><h1>Mobil Alt Bar — tema galerisi</h1><p>Her telefon canlı widget\'tır: sekmelere dokunabilir, Kategoriler alt sayfasını açabilirsiniz. Sepet rozeti ve üye adı örnek veridir.</p></div><div class="gal">' +
+        presets.map(function (p) { return '<div class="ph"><div class="scr"><iframe src="' + location.pathname + '?tenant=' + encodeURIComponent(tenant) + '&preset=' + p[0] + '&cart=' + cart + '&name=' + encodeURIComponent(name || 'Ayşe') + '&path=' + encodeURIComponent(path) + '&active=home" loading="lazy"></iframe></div><div class="nm">' + p[1] + '<small>' + p[2] + '</small></div></div>'; }).join('') + '</div>';
+      return;
+    }
+    // tek telefon: markasız, ürünsüz genel mağaza iskeleti (her tenant kendi barını nötr zeminde görür)
+    var svg = { search: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>', heart: '<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>', bag: '<svg viewBox="0 0 24 24"><path d="M6 8h12l1 12H5z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>', img: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg>' };
+    var tones = ['a', 'b', 'c', 'd', 'b', 'a', 'd', 'c'];
+    document.body.innerHTML = '<div class="store"><div class="top"><span class="logo">MAĞAZANIZ</span><span class="ic">' + svg.search + svg.heart + svg.bag + '</span></div>' +
+      '<div class="hero">YENİ SEZON<br>KOLEKSİYONU<small>Seçili ürünlerde sezon indirimi</small></div>' +
+      '<div class="chips"><span>Yeni</span><span>Çok Satan</span><span>İndirim</span><span>Kadın</span><span>Erkek</span><span>Çocuk</span></div>' +
+      '<div class="grid">' + tones.map(function (t) { return '<div class="card"><div class="im ' + t + '">' + svg.img + '</div><div class="ln"></div><div class="ln s"></div><div class="ln p"></div></div>'; }).join('') + '</div></div>';
+    // Akıllı Arama widget'ı: "Ara" sekmesi mağazadaki gibi Yunbi aramasını açsın
+    var ss = document.createElement('script');
+    ss.src = '/widget/search.js?v=6';
+    ss.setAttribute('data-tenant', tenant);
+    ss.setAttribute('data-trigger', '#__none__');
+    document.body.appendChild(ss);
+    var s = document.createElement('script');
+    s.src = '/widget/bottombar.js?v=' + Date.now();
+    s.setAttribute('data-tenant', tenant);
+    s.setAttribute('data-force', '1');
+    if (preset) s.setAttribute('data-preset', preset);
+    if (themeJson) s.setAttribute('data-theme', themeJson);
+    if (cart) s.setAttribute('data-demo-cart', cart);
+    if (name) s.setAttribute('data-demo-name', name);
+    if (active) s.setAttribute('data-demo-active', active);
+    s.setAttribute('data-debug', '1');
+    document.body.appendChild(s);
+  })();
+</script>
+</body>
+</html>

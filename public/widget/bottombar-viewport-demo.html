@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="tr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Alt Bar Viewport Teşhisi</title>
+<style>
+body{margin:0;font:14px/1.4 -apple-system,system-ui,sans-serif;background:#f6f7fb;color:#111}
+#hud{position:fixed;top:8px;left:8px;right:8px;z-index:99999;background:rgba(17,24,39,.92);color:#fff;font:12px/1.5 ui-monospace,Menlo,monospace;padding:8px 10px;border-radius:10px;white-space:pre}
+#ref{position:fixed;left:0;right:0;bottom:0;height:3px;background:#e11d48;z-index:99998;pointer-events:none}
+#sa{position:fixed;left:0;right:0;bottom:0;height:0;padding-bottom:env(safe-area-inset-bottom,0);visibility:hidden}
+.blk{height:130px;margin:14px;border-radius:12px;background:#fff;box-shadow:0 1px 3px rgba(0,0,0,.08);display:flex;align-items:center;justify-content:center;color:#9ca3af}
+p{margin:120px 16px 8px}
+</style></head><body>
+<div id="hud">yükleniyor…</div>
+<div id="ref"></div><div id="sa"></div>
+<p>Aşağı-yukarı kaydırın. Kırmızı çizgi = tarayıcının "fixed; bottom:0" kenarı. Üstteki kutu canlı değerler.</p>
+<script>
+(function(){
+  var hud=document.getElementById('hud'),ref=document.getElementById('ref'),sa=document.getElementById('sa');
+  var max=0,min=1e9;
+  for(var i=0;i<30;i++){var d=document.createElement('div');d.className='blk';d.textContent='blok '+(i+1);document.body.appendChild(d);}
+  function upd(){
+    var vv=window.visualViewport,ih=window.innerHeight,r=ref.getBoundingClientRect().bottom;
+    var vvb=vv?Math.round(vv.offsetTop+vv.height):'-';
+    var gap=vv?Math.round(vv.offsetTop+vv.height-r):'-';
+    if(vv){max=Math.max(max,vv.height);min=Math.min(min,vv.height);}
+    var w=document.getElementById('yunbi-bottombar'),wb='-';
+    try{wb=Math.round(w.shadowRoot.getElementById('wrap').getBoundingClientRect().bottom);}catch(e){}
+    hud.textContent='innerHeight     : '+ih+'\nvv.height       : '+(vv?Math.round(vv.height):'-')+'  (min '+Math.round(min)+' / max '+Math.round(max)+')\nvv.offsetTop    : '+(vv?Math.round(vv.offsetTop):'-')+'\nvv alt kenar    : '+vvb+'\nfixed alt kenar : '+Math.round(r)+'\nBOŞLUK (gap)    : '+gap+'\nsafe-area-bottom: '+Math.round(sa.getBoundingClientRect().height)+'\nyunbi bar alt   : '+wb+'\nscrollY         : '+Math.round(window.scrollY)+'\nUA: '+navigator.userAgent.slice(0,60);
+  }
+  ['scroll','resize','orientationchange'].forEach(function(e){window.addEventListener(e,upd,{passive:true});});
+  if(window.visualViewport){window.visualViewport.addEventListener('resize',upd);window.visualViewport.addEventListener('scroll',upd);}
+  setInterval(upd,250);upd();
+})();
+</script>
+<script src="https://hub.yunbi.ai/widget/bottombar.js?v=3" data-tenant="tonnyblack" data-force="1" data-debug="1"></script>
+</body></html>

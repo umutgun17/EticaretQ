@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Yunbi Sepet Önerisi — Canlı Demo</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif}
+  body{background:#fafafa;color:#1a1a1f}
+  header{background:#111;color:#fff;padding:14px 22px;display:flex;align-items:center;justify-content:space-between}
+  header b{letter-spacing:2px;font-size:17px}
+  header nav{font-size:12.5px;color:#bbb;display:flex;gap:16px}
+  .wrap{max-width:980px;margin:26px auto;padding:0 16px;display:grid;grid-template-columns:1fr 1fr;gap:30px}
+  @media(max-width:720px){.wrap{grid-template-columns:1fr}}
+  .img{background:#fff;border:1px solid #eee;border-radius:14px;overflow:hidden}
+  .img img{width:100%;display:block}
+  h1{font-size:19px;line-height:1.35;margin-bottom:10px}
+  .price{font-size:22px;font-weight:800;color:#e11d48;margin:8px 0 2px}
+  .old{font-size:14px;color:#999;text-decoration:line-through}
+  .sizes{display:flex;gap:8px;margin:16px 0;flex-wrap:wrap}
+  .sz{border:1.5px solid #ddd;border-radius:9px;padding:9px 13px;font-size:14px;cursor:pointer;background:#fff}
+  .sz.on{border-color:#111;background:#111;color:#fff;font-weight:700}
+  .add{width:100%;border:0;border-radius:12px;background:#111;color:#fff;font-size:15.5px;font-weight:700;padding:15px;cursor:pointer;margin-top:6px}
+  .add:hover{opacity:.93}
+  .note{margin-top:14px;font-size:12px;color:#8a8a92;background:#fff;border:1px dashed #ddd;border-radius:10px;padding:10px 12px;line-height:1.5}
+  .yb{position:fixed;left:12px;bottom:12px;background:#6d28d9;color:#fff;font-size:11px;font-weight:700;padding:6px 10px;border-radius:999px;z-index:99}
+</style>
+</head>
+<body>
+<header><b>TONNY BLACK</b><nav><span>KADIN</span><span>ERKEK</span><span>ÇOCUK</span><span>FIRSAT</span></nav></header>
+<div class="wrap">
+  <div class="img"><img id="pimg" src="" alt=""></div>
+  <div>
+    <h1 id="pname">Yükleniyor…</h1>
+    <div class="old" id="pold"></div>
+    <div class="price" id="pprice"></div>
+    <div style="font-size:12.5px;color:#777">Numara seç ve sepete ekle — Yunbi öneri paneli açılır.</div>
+    <div class="sizes" id="sizes"></div>
+    <button class="add" id="btnAdd">SEPETE EKLE</button>
+    <button id="btnCo" style="display:block;width:100%;text-align:center;margin-top:10px;border:1.5px solid #111;border-radius:12px;padding:13px;font-size:14.5px;font-weight:700;color:#111;background:#fff;cursor:pointer">ÖDEME ADIMI ÖNERİSİNİ ÖNİZLE (checkout içi bloklar)</button>
+    <div class="note">Bu sahte ürün sayfası, <b>tenant'ın gerçek verisiyle</b> Sepet Önerisi widget'ını dener:
+    sepete ekleyince hub'dan gerçek birlikte-alım önerileri (seçilen numara stokta olanlar) gelir.
+    Buradaki olaylar <b>is_test=true</b> işaretlenir, analitiği kirletmez.
+    Parametreler: <code>?tenant=SLUG&amp;product=PID&amp;variant=VID</code></div>
+  </div>
+</div>
+<div class="wrap" style="grid-template-columns:1fr;margin-top:0">
+  <div>
+    <h1 style="font-size:16px;margin-bottom:8px">🧾 Checkout simülasyonu (sepetim)</h1>
+    <div class="basket-main-wrapper" style="background:#fff;border:1px solid #eee;border-radius:14px;padding:14px">
+      <div style="display:flex;gap:12px;align-items:center;border-bottom:1px solid #f2f2f2;padding-bottom:10px;margin-bottom:10px">
+        <img src="https://static.ticimax.cloud/59755/Uploads/UrunResimleri/thumb/poli-taban-anorak-desenli-yuksek-taban--409d-.jpg" style="width:52px;border-radius:8px">
+        <div style="flex:1;font-size:13px">Poli Taban Anorak Desenli ... Bej Spor Ayakkabı TBA9060<br><span style="color:#888;font-size:11.5px">37 numara · 2 adet</span></div>
+        <b style="font-size:13.5px">2.599,94 ₺</b>
+      </div>
+      <div style="display:flex;gap:12px;align-items:center">
+        <img src="https://static.ticimax.cloud/59755/Uploads/UrunResimleri/thumb/poli-taban-anorak-desenli-yuksek-taban--409d-.jpg" style="width:52px;border-radius:8px">
+        <div style="flex:1;font-size:13px">Poli Taban Anorak Desenli ... Bej Spor Ayakkabı TBA9060<br><span style="color:#888;font-size:11.5px">38 numara · 1 adet</span></div>
+        <b style="font-size:13.5px">1.299,97 ₺</b>
+      </div>
+    </div>
+    <div class="note" style="margin-top:10px">Yukarıdaki "sepet"in içine, gerçek checkout sayfasındaki gibi <b>üstte "Sana Özel Teklif"</b> (tek ürün + geri sayan sayaç; buton sepete yenilemesiz ekler, kupon modunda kod otomatik uygulanır) + <b>altta geniş grid</b> enjekte edilir (canlıda seçici: <code>.basket-main-wrapper</code>). Sayaç sepet imzasına bağlı kalıcıdır; sıfırlamak için: <a href="#" onclick="sessionStorage.removeItem('yunbi_rec_offer_t0');location.reload();return false">sayacı sıfırla</a>.</div>
+  </div>
+</div>
+<span class="yb">Yunbi Ürün Öneri demosu</span>
+<script>
+  var qs = new URLSearchParams(location.search);
+  var TENANT = qs.get('tenant') || 'tonnyblack';
+  var PID = qs.get('product') || '8195';
+  var HUB = location.origin;
+
+  // Widget'ı dinamik enjekte et (temadaki embed ile aynı)
+  var s = document.createElement('script');
+  s.src = HUB + '/widget/cart-rec.js?v=4';
+  s.setAttribute('data-tenant', TENANT);
+  document.head.appendChild(s);
+
+  // Ödeme adımı simülasyonu: temanın sepet modeliyle aynı yapı (karma sepet örneği:
+  // 2x bu ürün 37 + 1x 38). Gerçek sitede widget /checkout linkini kendisi yakalar.
+  // Ticimax checkout SPA taklidi (v4): widget sepete eklemeyi ve kuponu bu global API ile
+  // sayfa yenilemeden yapar. Gerçek sayfada checkout-ui bunları kendisi tanımlar.
+  window.checkout_basket = { products: [
+    { productId: 41097, cardId: 8195, barcode: '', quantity: 2, basketPriceWithVat: 1299.97 },
+    { productId: 41098, cardId: 8195, barcode: '', quantity: 1, basketPriceWithVat: 1299.97 }
+  ], paymentInformation: { giftVoucher: null }, orderTotalPrice: 3899.91 };
+  window.checkout_addToCart = function (o) {
+    setTimeout(function () {
+      window.checkout_basket.products.push({ productId: parseInt(o.productId, 10), quantity: o.quantity || 1 });
+      var row = document.createElement('div');
+      row.style.cssText = 'font-size:12.5px;color:#189a55;padding:8px 0;border-top:1px solid #f2f2f2;margin-top:8px';
+      row.textContent = '+ Varyant #' + o.productId + ' sepete eklendi (SPA taklidi, yenileme yok)';
+      document.querySelector('.basket-main-wrapper').appendChild(row);
+    }, 600);
+  };
+  window.checkout_addGiftCode = function (code) {
+    setTimeout(function () { window.checkout_basket.paymentInformation = { giftVoucher: { voucher: code } }; }, 800);
+  };
+  window.cart = { get: { model: { cart: { products: [
+    { productId: 8195, variantId: 41097, piece: 2 },
+    { productId: 8195, variantId: 41098, piece: 1 }
+  ] } } } };
+
+  // Demo ürün kartı: cart-offer ucundan kaynak ürünün kendisini çekmek yerine
+  // önerileri kullanıyoruz; görsel/isim için ilk öneriyi baz almak yanıltıcı olur,
+  // o yüzden sabit örnek ürün bilgisi + gerçek numara listesi gösteriyoruz.
+  var sizes = ['36','37','38','39','40','41','42'];
+  var variants = { '36':'41096', '37':'41097', '38':'41098', '39':'41099', '40':'41100', '41':'41101', '42':'41102' };
+  document.getElementById('pname').textContent = 'Poli Taban Anorak Desenli Yüksek Taban Bağcıklı Unisex Bej Spor Ayakkabı TBA9060';
+  document.getElementById('pimg').src = 'https://static.ticimax.cloud/59755/Uploads/UrunResimleri/buyuk/poli-taban-anorak-desenli-yuksek-taban--409d-.jpg';
+  document.getElementById('pold').textContent = '1.999,95 ₺';
+  document.getElementById('pprice').textContent = '1.299,97 ₺';
+
+  var cur = '37';
+  var sbox = document.getElementById('sizes');
+  sizes.forEach(function (z) {
+    var b = document.createElement('button');
+    b.className = 'sz' + (z === cur ? ' on' : '');
+    b.textContent = z;
+    b.onclick = function () {
+      cur = z;
+      Array.prototype.forEach.call(sbox.children, function (c) { c.className = 'sz'; });
+      b.className = 'sz on';
+    };
+    sbox.appendChild(b);
+  });
+
+  document.getElementById('btnCo').onclick = function () {
+    if (window.__yunbiCartRecCheckoutDemo) window.__yunbiCartRecCheckoutDemo([
+      { p: 8195, v: 41097, q: 2 },
+      { p: 8195, v: 41098, q: 1 }
+    ]);
+    else alert('Widget henüz yüklenmedi');
+  };
+  document.getElementById('btnAdd').onclick = function () {
+    // sessionStorage frekans kapağını demoda sıfırla ki tekrar tekrar denenebilsin
+    try { sessionStorage.removeItem('yunbi_rec_seen'); } catch (e) {}
+    if (window.__yunbiCartRecTrigger) window.__yunbiCartRecTrigger(parseInt(PID, 10), parseInt(variants[cur] || 0, 10));
+    else alert('Widget henüz yüklenmedi');
+  };
+</script>
+</body>
+</html>

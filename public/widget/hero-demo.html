@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Yunbi "Bugüne Özel" Hero Kulakçığı — Demo</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f6f7f9;color:#111827}
+    .store{max-width:1180px;margin:0 auto;background:#fff;min-height:100vh}
+    .top{display:flex;align-items:center;justify-content:space-between;padding:14px 22px;border-bottom:1px solid #f1f2f5}
+    .top .logo{font-weight:800;letter-spacing:1px;font-size:18px}
+    .top nav{display:flex;gap:22px;font-size:13.5px;color:#374151;font-weight:600}
+    .top .ic{display:flex;gap:16px;color:#374151}.top .ic svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7}
+    .hero{margin:14px 22px;border-radius:16px;background:linear-gradient(135deg,#111827,#374151);color:#fff;padding:46px 30px;font-weight:800;font-size:30px;line-height:1.1}
+    .hero small{display:block;font-weight:500;font-size:13px;opacity:.75;margin-top:8px}
+    .chips{display:flex;gap:8px;padding:2px 22px 12px;overflow:auto}.chips span{white-space:nowrap;border:1px solid #e5e7eb;border-radius:999px;padding:6px 12px;font-size:12px;color:#374151}
+    .grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;padding:0 22px 120px}
+    .card{border-radius:12px;overflow:hidden;background:#fff}
+    .card .im{aspect-ratio:3/4;background:#f3f4f6;display:flex;align-items:center;justify-content:center;color:#d1d5db}.card .im svg{width:34px;height:34px;stroke:currentColor;fill:none;stroke-width:1.4}
+    .card .im.a{background:#f1f5f9}.card .im.b{background:#f5f3ff}.card .im.c{background:#fdf2f8}.card .im.d{background:#ecfdf5}
+    .ln{height:9px;border-radius:5px;background:#e5e7eb;margin:8px 4px 0}.ln.s{width:60%}.ln.p{width:40%;background:#cbd5e1;margin-top:10px;height:11px}
+    @media (max-width:640px){.grid{grid-template-columns:1fr 1fr;gap:12px;padding:0 12px 120px}.top{padding:12px 14px}.top nav{display:none}.hero{margin:10px 12px;padding:24px 16px;font-size:20px}.chips{padding:2px 12px 10px}}
+    .note{position:fixed;top:8px;left:8px;right:8px;z-index:5;background:rgba(17,24,39,.85);color:#fff;font-size:11px;border-radius:10px;padding:7px 10px;text-align:center;pointer-events:none}
+  </style>
+</head>
+<body>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var tenant = q.get('tenant') || 'tonnyblack';
+    var themeJson = q.get('theme') || '', rulesJson = q.get('rules') || '';
+    var openNow = q.get('open') === '1';
+    var autoSec = parseInt(q.get('auto'), 10);
+    var svg = { search: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>', heart: '<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>', bag: '<svg viewBox="0 0 24 24"><path d="M6 8h12l1 12H5z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>', img: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><circle cx="9" cy="10" r="1.6"/><path d="m21 16-5-5-8 8"/></svg>' };
+    var tones = ['a', 'b', 'c', 'd', 'b', 'a', 'd', 'c'];
+    document.body.innerHTML = '<div class="store"><div class="top"><span class="logo">MAĞAZANIZ</span><nav><span>Kadın</span><span>Erkek</span><span>Çocuk</span><span>İndirim</span></nav><span class="ic">' + svg.search + svg.heart + svg.bag + '</span></div>' +
+      '<div class="hero">YENİ SEZON<br>KOLEKSİYONU<small>Seçili ürünlerde sezon indirimi</small></div>' +
+      '<div class="chips"><span>Yeni</span><span>Çok Satan</span><span>İndirim</span><span>Kadın</span><span>Erkek</span><span>Çocuk</span></div>' +
+      '<div class="grid">' + tones.map(function (t) { return '<div class="card"><div class="im ' + t + '">' + svg.img + '</div><div class="ln"></div><div class="ln s"></div><div class="ln p"></div></div>'; }).join('') + '</div></div>' +
+      (q.get('note') !== '0' ? '<div class="note">Demo mağaza — kulakçık ve çekmece canlı widget\'tır; ürünler panelden seçilen gerçek ürünlerdir. Sepete ekleme demo sayfasında çalışmaz (Ticimax gerekir).</div>' : '');
+    var s = document.createElement('script');
+    s.src = '/widget/hero.js?v=' + Date.now();
+    s.setAttribute('data-tenant', tenant);
+    s.setAttribute('data-force', '1');
+    if (openNow) s.setAttribute('data-open', '1');
+    if (themeJson) s.setAttribute('data-theme', themeJson);
+    if (autoSec > 0) rulesJson = JSON.stringify(Object.assign(rulesJson ? JSON.parse(rulesJson) : {}, { auto_open: true, auto_open_delay: autoSec, frequency: 'always' }));
+    if (rulesJson) s.setAttribute('data-rules', rulesJson);
+    s.setAttribute('data-debug', '1');
+    document.body.appendChild(s);
+  })();
+</script>
+</body>
+</html>

@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Yunbi Sepet Kampanyası — Demo</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Inter,Arial,sans-serif;background:#f3f4f6;color:#111827}
+    .wrap{max-width:1100px;margin:0 auto;padding:14px}
+    .ctl{position:sticky;top:0;z-index:20;background:#111827;color:#fff;border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:12px;margin-bottom:14px;font-size:13px}
+    .ctl input[type=range]{flex:1;accent-color:#f59e0b}
+    .ctl b{font-variant-numeric:tabular-nums;min-width:110px;text-align:right}
+    .ctl .tag{font-size:10px;letter-spacing:.6px;text-transform:uppercase;color:#fbbf24;font-weight:800}
+    /* ── yan sepet (Ticimax sınıf adları) ── */
+    .miniCartRigth{background:#fff;border:1px solid #f0f0f0;box-shadow:0 0 6px #00000029;width:100%;max-width:500px;margin:0 auto;min-height:640px;display:flex;flex-direction:column}
+    .miniCartRigthHeader{display:flex;align-items:center;justify-content:space-between;padding:15px}
+    .miniCartRigthHeader .spnCartTxt{font-size:14px;font-weight:600}
+    .miniCartContent{padding:5px 15px 15px;flex:1}
+    .miniCartItem{display:flex;gap:15px;position:relative;padding:12px 0}
+    .miniCartItem img{width:86px;border-radius:5px}
+    .miniCartLeft{flex:1;padding-right:110px}
+    .miniurunAdi{font-size:13px;line-height:19px;display:block}
+    .miniCartDetayItem{font-size:13px;color:#666;margin-top:4px}
+    .miniCartItemprice{position:absolute;right:0;top:12px;text-align:right}
+    .miniCartItemprice .DiscountPrice{font-size:13px;color:#000}.miniCartItemprice .CartPrice{font-size:13px;font-weight:700}
+    .miniCartItemprice>div{margin-bottom:5px}
+    .miniCartHr{border:0;border-top:1px solid #F1F0ED;margin:0}
+    .miniCartSatir1.bottom{display:flex;justify-content:space-between;padding:10px 15px;font-size:14px;font-weight:600;text-transform:uppercase}
+    .miniCartSatir1 .miniCartCol2{font-size:16px;font-weight:bold}
+    .miniCartSatir2{display:flex;gap:15px;padding:15px}
+    .miniCartSatir2 a{flex:1;text-align:center;line-height:45px;border:1px solid #ccc;border-radius:5px;color:#000;text-decoration:none;font-size:14px;text-transform:uppercase}
+    .miniCartSatir2 a.fastOrderUrlButton{background:#000;color:#fff}
+    /* ── checkout (Ticimax checkout SPA sınıf adları) ── */
+    .basket-content{display:grid;grid-template-columns:7fr 5fr;gap:24px}.basket-content>div{min-width:0}
+    @media(max-width:700px){.basket-content{grid-template-columns:1fr}}
+    .content-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+    .content-header .title{font-size:16px;font-weight:700}
+    .cargo-information{background:#efe7ff;color:#7c3aed;border-radius:8px;padding:14px;margin-bottom:12px;font-size:14px}
+    .cart-product-list{background:#fff;border-radius:12px;padding:0 16px}
+    .product-item{display:flex;gap:16px;padding:16px 0;border-bottom:1px solid #eee}
+    .product-item img{width:100px;border:1px solid #eee;border-radius:6px}
+    .basket-item-content{flex:1;display:flex;flex-direction:column}
+    .basket-item-product-name{font-size:14px;font-weight:600;color:#111827;text-decoration:none}
+    .chips{display:flex;gap:6px;margin:10px 0}.basket-item-variation-chip{background:#f1f2f5;border-radius:12px;padding:3px 10px;font-size:12px}
+    .basket-item-bottom-wrapper{display:flex;justify-content:space-between;align-items:flex-end;margin-top:auto}
+    .counter{background:#f4f5f8;border-radius:8px;padding:6px 12px;font-size:14px}
+    .price-wrapper{text-align:right}.basket-item-sale-price span{color:#9ca3af;text-decoration:line-through;font-size:12px}.basket-item-basket-price span{color:#16a34a;font-weight:700;font-size:15px}
+    .basket-inner{background:#f0f1f3;border-radius:14px;padding:16px}
+    .order-summary-card{background:#fff;padding:14px 16px}.order-summary-card-title{font-weight:700;font-size:15px}
+    .order-summary-list{display:flex;flex-direction:column;border-top:1px solid #eee;border-bottom:1px solid #eee}
+    .order-summary-list-item{display:flex;justify-content:space-between;padding:8px 0;font-size:14px}
+    .total-price-card{display:flex;justify-content:space-between}
+    .btn-success{width:100%;background:#22c55e;color:#fff;border:0;border-radius:8px;padding:14px;font-weight:700;font-size:14px;margin-top:12px}
+    .note{position:fixed;left:8px;right:8px;bottom:8px;z-index:5;background:rgba(17,24,39,.88);color:#fff;font-size:11px;border-radius:10px;padding:7px 10px;text-align:center}
+    .note b{color:#fbbf24}
+  </style>
+</head>
+<body>
+<div class="wrap">
+  <div class="ctl"><span class="tag">Demo</span><span>Sepet tutarı</span><input id="rng" type="range" min="0" max="12000" step="50" value="1200"><b id="rngv"></b><label style="display:flex;align-items:center;gap:6px;cursor:pointer"><input id="camp" type="checkbox"> kampanya indirimi uygulanmış</label></div>
+  <div id="stage"></div>
+</div>
+<div class="note">Yunbi <b>Sepet Kampanyası</b> demosu — örnek sepet, tenant'ın gerçek panel ayarlarıyla çizilir.</div>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var tenant = q.get('tenant') || 'tonnyblack';
+  var mode = q.get('mode') === 'checkout' ? 'checkout' : 'side';
+  var theme = q.get('theme') || '', rules = q.get('rules') || '';
+  var IMG = ['https://static.ticimax.cloud/cdn-cgi/image/width=200,quality=85/59755/uploads/urunresimleri/buyuk/kalin-poli-taban-ici-kurklu-suet-gorun-a341bd.jpg', 'https://static.ticimax.cloud/cdn-cgi/image/width=200,quality=85/59755/uploads/urunresimleri/buyuk/kalin-poli-taban-ici-kurklu-suet-gorun-a341bd.jpg'];
+  var base = [{ name: 'Süet Görünümlü Kadın Kahve Bot', sell: 1199.9, cart: 599.95, size: '38' }, { name: 'Kut Burunlu Fermuarlı Topuklu Bot', sell: 1499.9, cart: 749.95, size: '39' }];
+  function tl(n) { return '₺' + n.toFixed(2).replace('.', ',').replace(/\B(?=(\d{3})+(?!\d))/g, '.'); }
+
+  // hedef tutara göre ürün adetlerini dağıt (2 ürün, adet 1..n)
+  function lines(target) {
+    var total = 0, out = [], i = 0;
+    var n = base.length;
+    // sonradan eklenen (demo "Ekle") ürünler 1 adet sabit; hedef tutar ilk iki ürünün adetleriyle doldurulur
+    for (var k = 2; k < n; k++) { out[k] = { p: base[k], q: 1 }; total += base[k].cart; }
+    while (total < target - 1 && i < 60) { var b = base[i % 2]; var ln = out[i % 2]; if (!ln) { ln = out[i % 2] = { p: b, q: 0 }; } ln.q++; total += b.cart; i++; }
+    return out.filter(Boolean);
+  }
+  function stateFor(amount, camp) {
+    var ls = lines(amount), list = 0, cart = 0, items = 0;
+    ls.forEach(function (l) { list += l.p.sell * l.q; cart += l.p.cart * l.q; items += l.q; });
+    var disc = camp && cart >= 2500 ? Math.round(cart * (cart >= 10000 ? .15 : cart >= 5000 ? .10 : .05) * 100) / 100 : 0;
+    return { ls: ls, list: list, cart: cart, items: items, disc: disc, total: cart - disc };
+  }
+
+  function renderSide(s) {
+    var html = '<div id="globalLiteCart"><div id="divCartMiniContent"><div class="miniCartRigth"><div class="miniCartRigthHeader"><span class="spnCartTxt">Sepetim (' + s.items + ')</span><span>✕</span></div><div class="miniCartRigthScroll"><div class="miniCartContent">';
+    s.ls.forEach(function (l, i) {
+      html += '<div class="miniCartItem"><div class="miniCartRight"><a href="/demo-urun-' + (9000 + i) + '"><img src="' + (l.p.img || IMG[i % 2]) + '" alt=""></a></div><div class="miniCartLeft"><span class="miniurunAdi">' + l.p.name + '</span><div class="miniCartDetayItem">Beden: ' + l.p.size + '</div><div class="miniCartDetayItem">Adet: ' + l.q + '</div></div>' +
+        '<div class="miniCartItemprice DiscountCheck"><div class="DiscountPrice lineThrough">' + tl(l.p.sell * l.q) + '</div><div class="CartPrice">' + tl(l.p.cart * l.q) + '</div><div>BÜYÜK İNDİRİM</div></div></div><hr class="miniCartHr">';
+    });
+    html += '</div>' + (s.disc ? '<div class="miniCartSatir1 bottom discountsTotal miniCartDiscountAmount"><span class="miniCartCol1">Kampanya İndirimi</span><span class="miniCartCol2">' + tl(s.disc) + '</span></div>' : '') +
+      '<div class="miniCartSatir1 bottom totalAmount miniCartTotalAmountBottom"><span class="miniCartCol1">Genel Toplam</span><span class="miniCartCol2">' + tl(s.total) + '</span></div>' +
+      '<div class="miniCartSatir2"><a href="#" class="checkoutAsGuestButton fastOrderUrlButton">Alışverişi Tamamla</a><a href="#" class="checkoutAsGuestButton basketUrlButton">Sepeti Gör</a></div></div></div></div></div>';
+    document.getElementById('stage').innerHTML = html;
+    window.cart = window.cart || { get: {}, render: {} };
+    window.cart.get.model = { cart: {
+      productCount: s.items, productsToShowCount: s.ls.length, totalAmount: s.total, totalAmountStr: tl(s.total), discountsTotal: s.disc, discountsTotalStr: tl(s.disc), giftVoucherAmount: 0,
+      campaigns: s.disc ? [{ definition: 'Sepette ek indirim' }] : null,
+      productsToShow: s.ls.map(function (l) { return { piece: l.q, sellPriceToShow: l.p.sell, cartPriceToShow: l.p.cart, totalSellPriceToShow: l.p.sell * l.q, totalCartPriceToShow: l.p.cart * l.q, productName: l.p.name }; })
+    } };
+    if (typeof window.rightSideCartRefresh === 'function') window.rightSideCartRefresh();
+  }
+  function renderCheckout(s) {
+    var html = '<div class="basket-content"><div><div class="content-header"><span class="title">Sepet (' + s.items + ')</span><span style="color:#ef4444;font-size:13px">Sepeti Temizle</span></div><div><div class="free-cargo cargo-information">Temanın kendi kargo bandı (widget gizler)</div></div><div class="cart-product-list">';
+    s.ls.forEach(function (l, i) {
+      html += '<div class="product-item" data-id="p' + i + '"><img src="' + (l.p.img || IMG[i % 2]) + '" alt=""><div class="basket-item-content"><a class="basket-item-product-name">' + l.p.name + '</a><div class="chips"><span class="basket-item-variation-chip">Kahve</span><span class="basket-item-variation-chip">' + l.p.size + '</span></div>' +
+        '<div class="basket-item-bottom-wrapper"><div class="counter">− &nbsp;<b>' + l.q + '</b> adet&nbsp; +</div><div class="basket-item-price-customize price-wrapper"><div class="basket-item-sale-price customize-sale-price"><span>' + tl(l.p.sell * l.q) + '</span></div><div class="basket-item-basket-price customize-basket-price"><span>' + tl(l.p.cart * l.q) + '</span></div></div></div></div></div>';
+    });
+    html += '</div></div><div class="basket-inner"><div class="order-summary-card"><div class="order-summary-card-title">Sipariş Özeti</div></div><div class="order-summary-card order-summary-list"><div class="order-summary-list-item"><div>Sepet Tutarı</div><div>' + tl(s.cart) + '</div></div>' + (s.disc ? '<div class="order-summary-list-item"><div>Kampanya İndirimi</div><div>-' + tl(s.disc) + '</div></div>' : '') + '</div><div class="order-summary-card total-price-card"><div class="order-summary-card-title">Toplam Tutar</div><div class="order-summary-card-title basket-total-price">' + tl(s.total) + '</div></div><div class="order-summary-card"><button class="btn-success">Alışverişi Tamamla</button></div></div></div>';
+    document.getElementById('stage').innerHTML = html;
+    window.checkout_basket = {
+      isFreeCargo: s.cart >= 1500,
+      price: { totalBasketPrice: s.total, totalNotDiscountedBasketPrice: s.cart, campaignDiscountPrice: s.disc, basketDiscountPrice: 0, giftVoucherPrice: 0, cargoPrice: 0 },
+      campaignDefinitions: s.disc ? [{ definition: 'Sepette ek indirim' }] : [],
+      products: s.ls.map(function (l, i) { return { basketProductId: 'p' + i, quantity: l.q, salePriceWithVat: l.p.sell, basketPriceWithVat: l.p.cart, totalPriceWithVat: l.p.cart * l.q }; })
+    };
+    window.dispatchEvent(new CustomEvent('basketUpdated', { detail: window.checkout_basket }));
+  }
+  var rng = document.getElementById('rng'), rv = document.getElementById('rngv'), camp = document.getElementById('camp');
+  function draw() { var s = stateFor(+rng.value, camp.checked); rv.textContent = tl(s.cart); (mode === 'checkout' ? renderCheckout : renderSide)(s); }
+  // "Sepetini tamamla" önerileri: gerçek /w/{slug}/cart/suggest çağrılır (mağazanın gerçek ürünleri); "Ekle" demoda sepete satır ekler
+  window.__yunbiCartDemo = {
+    add: function (it) {
+      var price = +it.discounted || +it.price;
+      base.push({ name: it.name, sell: +it.price, cart: price, size: it.size || '-', img: it.image });
+      var extra = (window.__demoExtra = (window.__demoExtra || 0) + price);
+      rng.value = Math.min(+rng.max, Math.round((+rng.value) + price)); rng.max = Math.max(+rng.max, +rng.value + 1000);
+      setTimeout(draw, 200); return true;
+    }
+  };
+  rng.addEventListener('input', draw); camp.addEventListener('change', draw);
+  draw();
+  var sc = document.createElement('script');
+  sc.src = '/widget/cart.js?v=2&d=' + Date.now();
+  sc.setAttribute('data-tenant', tenant); sc.setAttribute('data-surface', mode); sc.async = true;
+  if (theme) sc.setAttribute('data-theme', theme);
+  if (rules) sc.setAttribute('data-rules', rules);
+  document.body.appendChild(sc);
+})();
+</script>
+</body>
+</html>

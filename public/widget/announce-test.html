@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kampanya Duyuruları — widget testi</title>
+<style>
+  body { font-family: -apple-system, Segoe UI, Roboto, Arial, sans-serif; max-width: 480px; margin: 40px auto; padding: 0 16px; color: #222; }
+  .Formline { display: flex; gap: 6px; padding: 4px 0; }
+  .lineTitle { color: #777; }
+  .spanFiyat { font-size: 22px; font-weight: 700; }
+  h1 { font-size: 20px; }
+  .note { margin-top: 24px; font-size: 12px; color: #888; }
+  .filler { height: 900px; background: linear-gradient(#fafafa, #f0f0f0); border-radius: 12px; margin-top: 24px;
+            display: flex; align-items: center; justify-content: center; color: #bbb; }
+</style>
+</head>
+<body>
+  <h1>Çok Bölmeli Çapraz Çanta (test ürünü)</h1>
+
+  <!-- Ticimax ürün detay fiyat bloğu taklidi -->
+  <div id="pnlFiyatlar">
+    <div id="divFiyatAlanlari">
+      <div class="urunDetayFiyatContainer">
+        <div class="Formline">
+          <span class="lineTitle">Fiyat :</span>
+          <span class="spanFiyat">₺292,47</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="Formline"><span class="lineTitle">Barkod :</span><span>8682693586638</span></div>
+
+  <!-- Satın alma bloğu taklidi — güven rozetleri bunun HEMEN ALTINA gelmeli -->
+  <div class="buybutton" id="divSatinAl">
+    <button style="padding:12px 28px;background:#111;color:#fff;border:0;border-radius:8px;font-size:15px;">SEPETE EKLE</button>
+  </div>
+
+  <p class="note">Beklenen: (1) sayfanın en üstünde sticky duyuru barı (bitiş tarihi girildiyse geri sayaçlı,
+  ✕ ile kapatınca localStorage'a yazılır ve tekrar gelmez — içerik değişince yeniden gelir);
+  (2) sağ altta çan + okunmamış rozeti, tıklayınca kampanya listesi;
+  (3) SEPETE EKLE'nin altında güven rozetleri şeridi. Scroll ile barın yapışması test edilir.</p>
+
+  <div class="filler">scroll test alanı</div>
+
+  <script src="/widget/announce.js?v=12" data-tenant="tonnyblack" async></script>
+</body>
+</html>

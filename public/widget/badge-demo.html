@@ -1,0 +1,111 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Ürün Rozetleri — Demo</title>
+<style>
+  :root { --ink:#111827; --muted:#6b7280; --line:#eef0f3; }
+  * { box-sizing:border-box; }
+  body { margin:0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color:var(--ink); background:#fff; }
+  header { position:sticky; top:0; z-index:9; background:#fff; border-bottom:1px solid var(--line); padding:12px 14px; display:flex; align-items:center; justify-content:space-between; }
+  header b { letter-spacing:.14em; font-size:15px; }
+  .tabs { display:flex; gap:4px; background:#f3f4f6; border-radius:999px; padding:3px; }
+  .tabs a { font-size:12px; font-weight:600; color:var(--muted); text-decoration:none; padding:5px 10px; border-radius:999px; }
+  .tabs a.on { background:#fff; color:var(--ink); box-shadow:0 1px 2px rgba(0,0,0,.08); }
+  .crumb { font-size:12px; color:var(--muted); padding:10px 14px 0; }
+  h2.cat { font-size:17px; margin:4px 14px 10px; }
+  /* Ticimax liste yapısı (.productItem > .productImage > a.detailLink[data-id]) */
+  .ProductList { display:grid; grid-template-columns:repeat(2, 1fr); gap:14px 10px; padding:0 10px 30px; }
+  @media (min-width:900px){ .ProductList { grid-template-columns:repeat(4, 1fr); max-width:1200px; margin:0 auto; } }
+  .productItem { min-width:0; }
+  .productImage { position:relative; aspect-ratio:3/4; background:#f6f6f6; border-radius:4px; overflow:hidden; }
+  .productImage img { width:100%; height:100%; object-fit:cover; display:block; }
+  .productName { font-size:12.5px; line-height:1.35; margin-top:8px; height:34px; overflow:hidden; }
+  .productName a { color:var(--ink); text-decoration:none; }
+  .productPrice { margin-top:4px; display:flex; gap:6px; align-items:baseline; }
+  .discountPriceSpan { font-weight:700; font-size:14px; }
+  .regularPriceSpan { font-size:12px; color:#9ca3af; text-decoration:line-through; }
+  /* Ticimax ürün detay yapısı */
+  .pdp { max-width:1100px; margin:0 auto; padding:0 0 40px; }
+  @media (min-width:900px){ .pdp { display:grid; grid-template-columns:1fr 1fr; gap:32px; padding:20px; } }
+  .pdp .img { aspect-ratio:3/4; background:#f6f6f6; }
+  .pdp .Images { height:100%; }
+  .pdp .img img { width:100%; height:100%; object-fit:cover; display:block; }
+  .RightDetail { padding:14px; }
+  .ProductName h1 { font-size:17px; font-weight:600; line-height:1.35; margin:0; }
+  .productcode { color:var(--muted); font-weight:400; font-size:13px; }
+  .PriceList { display:flex; gap:10px; align-items:baseline; margin-top:6px; }
+  .PriceList .now { font-size:22px; font-weight:800; }
+  .PriceList .old { color:#9ca3af; text-decoration:line-through; }
+  .sizes { display:flex; flex-wrap:wrap; gap:6px; margin:6px 0 14px; }
+  .sizes span { border:1px solid #d1d5db; border-radius:6px; padding:7px 0; width:44px; text-align:center; font-size:13px; }
+  #divSatinAl { display:flex; gap:8px; }
+  #divSatinAl button { flex:1; height:46px; border:0; border-radius:8px; font-weight:700; font-size:14px; }
+  .btn-buy { background:#111827; color:#fff; } .btn-fast { background:#f3f4f6; color:#111827; }
+  .empty { padding:40px 16px; text-align:center; color:var(--muted); font-size:14px; }
+  .yb-note { position:fixed; left:10px; bottom:10px; z-index:20; font-size:11px; background:#111827; color:#fff; padding:5px 9px; border-radius:999px; opacity:.85; }
+</style>
+</head>
+<body>
+<header><b>MAĞAZA</b><nav class="tabs"><a href="#" data-v="list">Liste</a><a href="#" data-v="pdp">Ürün detay</a></nav></header>
+<main id="root"><div class="empty">Yükleniyor…</div></main>
+<div class="yb-note">Yunbi Ürün Rozetleri · demo</div>
+<script>
+(function () {
+  var q = new URLSearchParams(location.search);
+  var tenant = q.get('tenant') || 'tonnyblack';
+  var view = q.get('view') || 'list';
+  var base = location.origin;
+  function j(k) { try { return q.get(k) ? JSON.parse(q.get(k)) : null; } catch (e) { return null; } }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function tl(n) { return (+n || 0).toLocaleString('tr-TR', { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' TL'; }
+  document.querySelectorAll('.tabs a').forEach(function (a) {
+    a.classList.toggle('on', a.dataset.v === view);
+    a.onclick = function (e) { e.preventDefault(); q.set('view', a.dataset.v); location.search = q.toString(); };
+  });
+
+  Promise.all([
+    fetch(base + '/w/' + tenant + '/badges/config').then(function (r) { return r.json(); }),
+    fetch(base + '/w/' + tenant + '/badges/demo' + (q.get('pid') ? '?pid=' + encodeURIComponent(q.get('pid')) : '')).then(function (r) { return r.json(); })
+  ]).then(function (res) {
+    var cfg = res[0], demo = res[1], root = document.getElementById('root');
+    // Panel önizlemesi: kaydedilmemiş tema/kural/tip değişikliklerini üstüne yaz
+    var th = j('theme'), ru = j('rules'), ty = j('types');
+    if (th) cfg.theme = Object.assign({}, cfg.theme, th);
+    if (ru) cfg.rules = Object.assign({}, cfg.rules, ru);
+    if (ty) cfg.types = ty.filter(function (t) { return t.enabled !== false; });
+    cfg.enabled = true;
+    var items = (demo.items || []);
+    if (!items.length) { root.innerHTML = '<div class="empty">Henüz rozet verisi yok — panelden rozetleri açın.</div>'; return; }
+
+    if (view === 'pdp') {
+      // En çok rozet + kanıt satırı olan ürünü seç (yoksa ilk)
+      var pick = demo.pdp && q.get('pid') ? demo.pdp : null;
+      if (!pick) {
+        var best = -1;
+        items.forEach(function (it) { var sc = ((cfg.b[it.pid] || []).length) + (cfg.p[it.pid] ? Object.keys(cfg.p[it.pid]).length : 0); if (sc > best) { best = sc; pick = it; } });
+      }
+      window.productDetailModel = { productId: +pick.pid, productName: pick.name };
+      root.innerHTML = '<div class="crumb">Ana Sayfa › Ürün</div><div class="pdp"><div class="leftImage img"><div class="Images">' + (pick.image ? '<img src="' + esc(pick.image) + '" alt="">' : '') + '</div></div>' +
+        '<div class="RightDetail"><div class="ProductName"><h1><span>' + esc(pick.name) + '</span></h1></div>' +
+        '<div class="PriceList"><span class="now">' + tl(pick.sale) + '</span>' + (pick.price > pick.sale ? '<span class="old">' + tl(pick.price) + '</span>' : '') + '</div>' +
+        '<div style="font-size:13px;font-weight:600;margin-top:14px">Beden</div><div class="sizes">' + ['36', '37', '38', '39', '40', '41', '42', '43'].map(function (s) { return '<span>' + s + '</span>'; }).join('') + '</div>' +
+        '<div id="divSatinAl"><button class="btn-fast">Hemen Al</button><button class="btn-buy">Sepete Ekle</button></div></div></div>';
+    } else {
+      root.innerHTML = '<div class="crumb">Ana Sayfa › Kategori</div><h2 class="cat">Öne Çıkanlar</h2><div class="ProductList">' + items.map(function (it) {
+        return '<div class="productItem"><div class="productImage"><a class="detailLink" data-id="' + esc(it.pid) + '" href="#">' + (it.image ? '<img loading="lazy" src="' + esc(it.image) + '" alt="">' : '') + '</a></div>' +
+          '<div class="productDetail" data-id="' + esc(it.pid) + '"><div class="productName"><a href="#">' + esc(it.name) + '</a></div>' +
+          '<div class="productPrice"><span class="discountPriceSpan">' + tl(it.sale) + '</span>' + (it.price > it.sale ? '<span class="regularPriceSpan">' + tl(it.price) + '</span>' : '') + '</div></div></div>';
+      }).join('') + '</div>';
+    }
+    window.__yunbiBadgeConfig = cfg;
+    var s = document.createElement('script');
+    s.src = '/widget/badge.js?v=' + Date.now();
+    s.setAttribute('data-tenant', tenant); s.setAttribute('data-demo', '1');
+    document.body.appendChild(s);
+  }).catch(function (e) { document.getElementById('root').innerHTML = '<div class="empty">Demo yüklenemedi: ' + esc(e.message) + '</div>'; });
+})();
+</script>
+</body>
+</html>

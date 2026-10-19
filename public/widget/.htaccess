@@ -1,0 +1,61 @@
+<IfModule mod_headers.c>
+    # Widget dosyaları UTF-8 — host sayfanın charset'i (Ticimax temaları çoğu kez
+    # windows-1254) script'e sızmasın; Türkçe metinler her yerde doğru görünsün.
+    <FilesMatch "\.js$">
+        Header always set Content-Type "text/javascript; charset=utf-8"
+    </FilesMatch>
+    <FilesMatch "\.css$">
+        Header always set Content-Type "text/css; charset=utf-8"
+    </FilesMatch>
+
+    # CORS — widget farklı domain'lerden yüklenir
+    Header always set Access-Control-Allow-Origin "*"
+    Header always set Access-Control-Allow-Methods "GET, OPTIONS"
+    Header always set Access-Control-Allow-Headers "Content-Type"
+
+    # Widget JS: 5dk cache
+    <FilesMatch "reviews\.js$">
+        Header always set Cache-Control "public, max-age=300, s-maxage=300, must-revalidate"
+        Header always set CDN-Cache-Control "max-age=300"
+    </FilesMatch>
+    # Widget CSS: 1 saat cache
+    <FilesMatch "reviews\.css$">
+        Header always set Cache-Control "public, max-age=3600, s-maxage=3600, must-revalidate"
+        Header always set CDN-Cache-Control "max-age=3600"
+    </FilesMatch>
+    # Çark widget (aktif iterasyon): tarayıcı HER ZAMAN sunucuya doğrular (no-cache) →
+    # güncellemeler anında gelir. Edge'de 60sn cache kalır (performans). mod_expires'in
+    # eklediği çelişen 7 günlük Expires header'ı temizlenir (yoksa mobil tarayıcı onu baz alıp tutuyordu).
+    <FilesMatch "wheel\.(js|css)$">
+        Header set Cache-Control "no-cache, must-revalidate"
+        Header set CDN-Cache-Control "max-age=60"
+        Header unset Expires
+        Header unset Pragma
+    </FilesMatch>
+    # Chatbot widget: cark ile ayni politika. Kiracinin temasindaki ?v= elle
+    # guncellenmiyor; tarayici her acilista sunucuya dogrulasin ki UI duzeltmeleri
+    # tema degisikligi beklemeden yayilsin (edge'de 60sn cache kalir).
+    <FilesMatch "chat\.js$">
+        Header set Cache-Control "no-cache, must-revalidate"
+        Header set CDN-Cache-Control "max-age=60"
+        Header unset Expires
+        Header unset Pragma
+    </FilesMatch>
+    # Sepet / kargo / arama / Sana Özel / Hoş geldin widget'ları: aktif iterasyon — aynı politika.
+    # (Cloudflare edge'i 5 dk'lık max-age'e rağmen ~1 saat eski kopya tutuyordu → her düzeltmede ?v= artırmak gerekiyordu.)
+    <FilesMatch "^(cart|shipping|search|foryou|welcome)\.js$">
+        Header set Cache-Control "no-cache, must-revalidate"
+        Header set CDN-Cache-Control "max-age=60"
+        Header unset Expires
+        Header unset Pragma
+    </FilesMatch>
+</IfModule>
+<IfModule mod_expires.c>
+    # Çark dosyaları için mod_expires'i kapat (yukarıdaki no-cache geçerli olsun)
+    <FilesMatch "wheel\.(js|css)$">
+        ExpiresActive Off
+    </FilesMatch>
+    <FilesMatch "chat\.js$">
+        ExpiresActive Off
+    </FilesMatch>
+</IfModule>

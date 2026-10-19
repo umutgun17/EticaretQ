@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Widgetlar — canlı demo | Yunbi</title>
+<style>
+  * { box-sizing: border-box; }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
+         margin: 0; color: #1f2937; background: #fff; }
+
+  /* Sahte mağaza başlığı */
+  .shophead { display: flex; align-items: center; justify-content: space-between; gap: 16px;
+              padding: 14px 20px; border-bottom: 1px solid #eee; }
+  .shophead .logo { font-size: 18px; font-weight: 800; letter-spacing: .04em; }
+  .shophead nav { display: flex; gap: 18px; font-size: 13.5px; color: #6b7280; }
+  .shophead nav span { cursor: default; }
+
+  .wrap { max-width: 960px; margin: 0 auto; padding: 28px 20px 60px; }
+  .crumbs { font-size: 12px; color: #9ca3af; margin-bottom: 18px; }
+
+  .product { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; }
+  @media (max-width: 700px) { .product { grid-template-columns: 1fr; } }
+
+  .pimg { aspect-ratio: 2/3; max-height: 520px; border-radius: 14px;
+          background: linear-gradient(160deg, #f3f4f6, #e5e7eb);
+          display: flex; align-items: center; justify-content: center; font-size: 64px; }
+
+  .pinfo h1 { font-size: 22px; margin: 0 0 6px; }
+  .pinfo .brand { font-size: 13px; color: #6b7280; margin-bottom: 14px; }
+  .Formline { display: flex; gap: 6px; padding: 4px 0; font-size: 14px; }
+  .lineTitle { color: #9ca3af; }
+  .spanFiyat { font-size: 26px; font-weight: 800; }
+  .sizes { display: flex; gap: 8px; margin: 16px 0; }
+  .sizes span { width: 42px; height: 42px; border: 1px solid #d1d5db; border-radius: 8px;
+                display: flex; align-items: center; justify-content: center; font-size: 13px;
+                cursor: default; }
+  .sizes span.sel { border-color: #111; font-weight: 700; }
+
+  .buybutton button { width: 100%; padding: 14px; background: #111827; color: #fff; border: 0;
+                      border-radius: 10px; font-size: 15px; font-weight: 700; cursor: pointer; }
+
+  .demonote { position: fixed; bottom: 18px; left: 18px; z-index: 2147483000;
+              background: #4f46e5; color: #fff; font-size: 11.5px; font-weight: 700;
+              border-radius: 999px; padding: 7px 13px; box-shadow: 0 4px 14px rgba(79,70,229,.4);
+              opacity: .92; }
+
+  .filler { height: 900px; background: linear-gradient(#fafafa, #f0f0f0); border-radius: 14px;
+            margin-top: 40px; display: flex; align-items: center; justify-content: center;
+            color: #cbd5e1; font-size: 13px; }
+</style>
+</head>
+<body>
+  <!-- DEMO: sahte mağaza sayfası — Yunbi "Widgetlar" (bildirim çanı + sayaçlı üst bar +
+       güven rozetleri) gerçek panel ayarlarınızla bu sayfada çalışır.
+       Tenant: ?tenant=SLUG (varsayılan tonnyblack). -->
+
+  <header class="shophead">
+    <div class="logo">DEMO MAĞAZA</div>
+    <nav><span>Kadın</span><span>Erkek</span><span>Çocuk</span><span>İndirim</span></nav>
+  </header>
+
+  <div class="wrap">
+    <div class="crumbs">Anasayfa / Çanta / Çok Bölmeli Çapraz Çanta</div>
+
+    <div class="product">
+      <div class="pimg">
+        <svg width="120" height="120" viewBox="0 0 24 24" fill="none" stroke="#9ca3af" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"/><path d="M3 6h18"/><path d="M16 10a4 4 0 0 1-8 0"/>
+        </svg>
+      </div>
+
+      <div class="pinfo">
+        <h1>Çok Bölmeli Çapraz Çanta</h1>
+        <div class="brand">Tonny Black</div>
+
+        <!-- Ticimax ürün detay fiyat bloğu taklidi -->
+        <div id="pnlFiyatlar">
+          <div id="divFiyatAlanlari">
+            <div class="urunDetayFiyatContainer">
+              <div class="Formline">
+                <span class="lineTitle">Fiyat :</span>
+                <span class="spanFiyat">₺292,47</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="Formline"><span class="lineTitle">Barkod :</span><span>8682693586638</span></div>
+
+        <div class="sizes"><span>36</span><span class="sel">37</span><span>38</span><span>39</span><span>40</span></div>
+
+        <!-- Satın alma bloğu taklidi — güven rozetleri bunun HEMEN ALTINA gelir -->
+        <div class="buybutton" id="divSatinAl">
+          <button type="button">SEPETE EKLE</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="filler">scroll test alanı — üst barın yapışmasını (sticky) burada test edin</div>
+  </div>
+
+  <div class="demonote">Yunbi Widgetlar demosu</div>
+
+  <script>
+    // Tenant'ı URL'den al (?tenant=SLUG) ve widget'ı o tenant'ın GERÇEK panel ayarlarıyla yükle.
+    (function () {
+      // DEMO: kapatma/görülme hafızasını sıfırla — bar ve çan rozeti HER ziyarette görünsün
+      // (canlı sitede localStorage kalıcıdır; bu sıfırlama yalnız bu demo sayfasında yapılır).
+      try {
+        localStorage.removeItem('yunbi_ann_bar_dismiss');
+        localStorage.removeItem('yunbi_ann_seen');
+      } catch (e) {}
+      var tenant = new URLSearchParams(location.search).get('tenant') || 'tonnyblack';
+      var s = document.createElement('script');
+      s.src = '/widget/announce.js?v=12';
+      s.async = true;
+      s.setAttribute('data-tenant', tenant);
+      document.body.appendChild(s);
+    })();
+  </script>
+</body>
+</html>

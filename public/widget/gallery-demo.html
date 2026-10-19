@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Yunbi Ürün Galerisi — Demo</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#fff;color:#111827}
+    .store{max-width:480px;margin:0 auto;min-height:100vh}
+    .top{display:flex;align-items:center;justify-content:space-between;padding:12px 14px;border-bottom:1px solid #f1f2f5}
+    .top .logo{font-weight:800;letter-spacing:1px;font-size:17px}
+    .top .ic{display:flex;gap:14px;color:#374151}.top .ic svg{width:21px;height:21px;stroke:currentColor;fill:none;stroke-width:1.7}
+    .leftImage{padding:0 12px}
+    /* temanın "eski" slider'ı: widget bunu okur ve gizler */
+    #divMobileImageList{display:flex;overflow:auto;gap:6px}
+    #divMobileImageList .owl-item{flex:0 0 100%}
+    #divMobileImageList img{width:100%;display:block}
+    .info{padding:14px 12px}
+    .info h1{font-size:16px;line-height:1.35;margin:0 0 6px;font-weight:600}
+    .info .sku{font-size:12px;color:#6b7280}
+    .price{display:flex;align-items:baseline;gap:10px;margin:12px 0}
+    .price b{font-size:22px}.price s{color:#9ca3af;font-size:14px}.price .d{background:#dc2626;color:#fff;font-size:12px;font-weight:700;border-radius:6px;padding:3px 7px}
+    .sizes{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin:12px 0}
+    .sizes span{border:1px solid #e5e7eb;border-radius:8px;text-align:center;padding:10px 0;font-size:14px}
+    .sizes span.on{border-color:#111827;font-weight:700}
+    .btn{display:block;width:100%;background:#111827;color:#fff;text-align:center;padding:14px;border-radius:10px;font-weight:700;margin-top:12px}
+    .note{position:fixed;left:8px;right:8px;bottom:8px;z-index:5;background:rgba(17,24,39,.88);color:#fff;font-size:11px;border-radius:10px;padding:7px 10px;text-align:center}
+    .note b{color:#fbbf24}
+  </style>
+</head>
+<body>
+<script>
+  (function () {
+    var q = new URLSearchParams(location.search);
+    var tenant = q.get('tenant') || 'tonnyblack';
+    var theme = q.get('theme') || '';
+    // demo her cihazda görünsün: panel/tenant kuralı ne olursa olsun devices=all (URL'deki rules bunun üstüne yazar)
+    var rules = q.get('rules') || '';
+    try { var ro = rules ? JSON.parse(rules) : {}; if (!ro.devices) ro.devices = 'all'; rules = JSON.stringify(ro); } catch (e) { rules = JSON.stringify({ devices: 'all' }); }
+    // ham tema linkleri (widget kurulamazsa) başka sayfaya götürmesin
+    document.addEventListener('click', function (e) { var a = e.target.closest && e.target.closest('#divMobileImageList a'); if (a) e.preventDefault(); }, true);
+    // markasız örnek görseller (nötr stok kareler, sunucuda /widget/demo-img/) — ?imgs=url1|url2 ile değiştirilebilir
+    var imgs = (q.get('imgs') || '').split('|').filter(Boolean);
+    // aynı origin'den servis edilir: hub CSP'si (connect-src) dış görsele fetch'i engeller → indir butonu demoda da çalışsın
+    if (!imgs.length) imgs = [1, 2, 3, 4, 5, 6].map(function (i) { return location.origin + '/widget/demo-img/' + i + '.jpg'; });
+    var svg = { search: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>', heart: '<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>', bag: '<svg viewBox="0 0 24 24"><path d="M6 8h12l1 12H5z"/><path d="M9 8V6.5a3 3 0 0 1 6 0V8"/></svg>' };
+    document.body.insertAdjacentHTML('afterbegin', '<div class="store"><div class="top"><span class="logo">MAĞAZANIZ</span><span class="ic">' + svg.search + svg.heart + svg.bag + '</span></div>' +
+      '<div class="leftImage"><div id="divMobileImageList" class="mobileImageSlider">' + imgs.map(function (u) { return '<div class="owl-item"><a class="lightItem" href="' + u + '"><img src="' + u + '" alt="Örnek ürün görseli"></a></div>'; }).join('') + '</div></div>' +
+      '<div class="info"><h1>Örnek Ürün — Bağcıklı Günlük Spor Ayakkabı</h1><div class="sku">Stok kodu: DEMO-001</div>' +
+      '<div class="price"><b>₺1.299,90</b><s>₺2.599,90</s><span class="d">%50</span></div>' +
+      '<div class="sizes">' + [36, 37, 38, 39, 40, 41].map(function (s, i) { return '<span class="' + (i === 2 ? 'on' : '') + '">' + s + '</span>'; }).join('') + '</div>' +
+      '<div id="divSatinAl"><a class="btn">Sepete Ekle</a></div></div></div>' +
+      '<div class="note"><b>Yunbi Ürün Galerisi demosu</b> · ana görseli kaydır, küçük görsele dokun, büyütmek için ana görsele dokun</div>');
+    var s = document.createElement('script');
+    s.src = '/widget/gallery.js?v=' + Date.now();
+    s.setAttribute('data-tenant', tenant);
+    if (theme) s.setAttribute('data-theme', theme);
+    if (rules) s.setAttribute('data-rules', rules);
+    document.body.appendChild(s);
+  })();
+</script>
+</body>
+</html>

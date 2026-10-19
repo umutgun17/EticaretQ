@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Yunbi Akıllı Arama — Demo (Tonny Black gerçek verisi)</title>
+  <style>
+    *{box-sizing:border-box}
+    body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f1f5f9;color:#0f172a}
+    .topbar{background:#111827;color:#fff;padding:13px 20px;display:flex;align-items:center;gap:16px;position:sticky;top:0;z-index:10}
+    .brand{font-weight:800;font-size:18px;letter-spacing:.5px;flex:1}
+    .brand small{font-weight:500;opacity:.55;font-size:11px;margin-left:6px}
+    .searchbtn{display:flex;align-items:center;gap:9px;background:#1f2937;border:1px solid #374151;color:#cbd5e1;border-radius:10px;padding:10px 16px 10px 13px;font-size:14px;cursor:pointer;min-width:230px}
+    .searchbtn:hover{border-color:#6366f1;color:#fff}
+    .searchbtn svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;flex:none}
+    .cart{opacity:.8;font-size:13px}
+    /* dar ekranda topbar taşmasın: arama butonu alt satıra tam genişlik iner */
+    @media (max-width:640px){
+      .topbar{flex-wrap:wrap;gap:10px}
+      .searchbtn{order:3;width:100%;min-width:0}
+    }
+    .banner{background:#fef9c3;border-bottom:1px solid #fde68a;color:#854d0e;font-size:13px;padding:10px 20px;text-align:center}
+    .banner b{color:#713f12}
+    .wrap{max-width:1000px;margin:0 auto;padding:40px 20px}
+    h1{font-size:22px;margin:0 0 6px}
+    p.sub{color:#64748b;margin:0 0 26px}
+    .try{display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 30px}
+    .try b{width:100%;font-size:13px;color:#475569;font-weight:600;margin-bottom:2px}
+    .q{background:#fff;border:1px solid #e2e8f0;border-radius:999px;padding:8px 16px;font-size:14px;cursor:pointer;transition:.15s}
+    .q:hover{border-color:#6366f1;color:#4338ca;box-shadow:0 2px 8px rgba(99,102,241,.15)}
+    .feat{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:16px;margin-top:10px}
+    .feat .c{background:#fff;border:1px solid #e2e8f0;border-radius:14px;padding:18px}
+    .feat .c h3{margin:0 0 6px;font-size:15px}
+    .feat .c p{margin:0;font-size:13px;color:#64748b;line-height:1.5}
+    .hint{margin-top:30px;font-size:13px;color:#94a3b8}
+  </style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="brand">TONNY BLACK <small>DEMO</small></div>
+    <button id="demoSearchBtn" class="searchbtn">
+      <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></svg>
+      <span>Ürün, kategori, renk ara…</span>
+    </button>
+    <div class="cart">🛒 Sepet</div>
+  </div>
+
+  <div class="banner">
+    ⚙️ <b>TEST SAYFASI</b> — Bu sayfa <b>Yunbi (hub.yunbi.ai)</b> üzerinde çalışır, <b>gerçek Tonny Black kataloğunu</b> kullanır.
+    Canlı tonnyblack.com.tr sitesine hiçbir etkisi yoktur.
+    <span id="tplSwitch" style="display:inline-block;margin-left:10px">
+      Şablon:
+      <a href="?template=drawer" id="tplDrawer" style="color:#713f12">Yandan Panel</a> ·
+      <a href="?template=fullscreen" id="tplFull" style="color:#713f12">Tam Sayfa</a>
+    </span>
+  </div>
+
+  <div class="wrap">
+    <h1>Yunbi Akıllı Arama — Demo</h1>
+    <p class="sub">Sağ üstteki <b>arama</b> kutusuna tıkla → sağdan panel açılır (Tonny Black'teki gibi). Boşken son/popüler aramalar; yazınca canlı sonuç.</p>
+
+    <div class="try">
+      <b>Hızlı dene:</b>
+      <span class="q">kırmızı 44</span>
+      <span class="q">siyah spor ayakkabı</span>
+      <span class="q">kadın sandalet 38</span>
+      <span class="q">lacivert 42 erkek</span>
+      <span class="q">rahat sneaker</span>
+      <span class="q">tisört</span>
+    </div>
+
+    <div class="feat">
+      <div class="c"><h3>🔤 Türkçe & yazım</h3><p>“tisort”, “KIRMIZI”, deascii normalize. Renk+beden tek varyantta eşleşir.</p></div>
+      <div class="c"><h3>🧠 Niyet anlama</h3><p>“kırmızı 44” → Renk: Kırmızı · Beden: 44. Anladığını panelde etiketle gösterir.</p></div>
+      <div class="c"><h3>🎯 Çıkmaz sokak yok</h3><p>Sonuç yoksa popüler/ilgili ürünleri önerir.</p></div>
+    </div>
+
+    <p class="hint">Panel sağdan açılır; <b>Esc</b> ile kapanır. İlk kez aratınca yapay zeka embedding'i ~150-300ms sürer, sonra cache'den anında gelir.</p>
+  </div>
+
+  <!-- Yunbi Akıllı Arama — storefront'a eklenecek satırın AYNISI (data-trigger = arama ikonu).
+       Demo'da script dinamik eklenir ki ?template= parametresiyle şablon önizlenebilsin;
+       data-template YALNIZ önizleme içindir (canlıda şablon panel ayarından gelir). -->
+  <script>
+    (function () {
+      var t = new URLSearchParams(location.search).get('template');
+      var s = document.createElement('script');
+      s.src = '/widget/search.js?v=17';
+      s.setAttribute('data-tenant', 'tonnyblack');
+      s.setAttribute('data-trigger', '#demoSearchBtn');
+      s.setAttribute('data-debug', '1');
+      if (t === 'drawer' || t === 'fullscreen') s.setAttribute('data-template', t);
+      document.body.appendChild(s);
+      var cur = (t === 'fullscreen') ? 'tplFull' : 'tplDrawer';
+      var el = document.getElementById(cur);
+      if (el) { el.style.fontWeight = '800'; el.style.textDecoration = 'none'; }
+    })();
+    document.querySelectorAll('.q').forEach(function (el) {
+      el.addEventListener('click', function () {
+        if (window.YunbiSearch) window.YunbiSearch.open(el.textContent.trim());
+      });
+    });
+  </script>
+</body>
+</html>

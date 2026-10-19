@@ -1,0 +1,379 @@
+/* Yunbi Çark widget — profesyonel tasarım. Tüm sınıflar `ywheel-` ön ekli + yüksek özgünlük
+   ile site CSS'inden izole. Renkler JS'ten (kampanya tasarımı) inline değişkenlerle gelir. */
+
+.ywheel-overlay {
+  position: fixed; inset: 0; z-index: 2147483000;
+  background: rgba(15, 23, 42, 0.62); backdrop-filter: blur(3px);
+  display: flex; align-items: center; justify-content: center;
+  opacity: 0; transition: opacity 0.25s ease;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+  padding: 16px; box-sizing: border-box;
+}
+.ywheel-overlay.ywheel-in { opacity: 1; }
+.ywheel-overlay.ywheel-closing { opacity: 0; }
+.ywheel-overlay *, .ywheel-overlay *::before, .ywheel-overlay *::after { box-sizing: border-box; }
+
+/* ── Modal: iki kolon (sol çark + sağ form) ── */
+.ywheel-modal {
+  position: relative; display: flex; width: 100%; max-width: 820px; max-height: 92vh;
+  overflow: hidden; border-radius: 22px;
+  background:
+    radial-gradient(120% 120% at 0% 0%, rgba(255,255,255,0.14), transparent 50%),
+    linear-gradient(135deg, var(--yw-primary, #e11d48), var(--yw-primary-2, #9f1239));
+  color: var(--yw-text, #fff);
+  box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+  transform: translateY(14px) scale(0.97); opacity: 0; transition: transform 0.3s ease, opacity 0.3s ease;
+}
+.ywheel-overlay.ywheel-in .ywheel-modal { transform: translateY(0) scale(1); opacity: 1; }
+
+.ywheel-close {
+  position: absolute; top: 12px; right: 14px; z-index: 5; width: 32px; height: 32px;
+  border: none; border-radius: 50%; background: rgba(17,24,39,0.55); color: #fff;
+  font-size: 18px; line-height: 1; cursor: pointer; transition: background 0.15s;
+}
+.ywheel-close:hover { background: rgba(17,24,39,0.8); }
+
+/* ── Sol: çark ── */
+.ywheel-left {
+  flex: 0 0 46%; display: flex; align-items: center; justify-content: center; padding: 26px 18px;
+  position: relative;
+  background: radial-gradient(circle at 50% 45%, rgba(255,255,255,0.22), transparent 62%);
+}
+.ywheel-wheelwrap { position: relative; width: 340px; max-width: 100%; }
+.ywheel-canvas { width: 100%; height: auto; display: block; filter: drop-shadow(0 10px 26px rgba(0,0,0,0.35)); transform: rotate(0deg); }
+/* Çevirmeden önce hafif sallanma (dikkat çeker; spin başlayınca JS sınıfı kaldırır) */
+.ywheel-canvas.ywheel-idle { animation: ywheel-idle-wobble 3.6s ease-in-out infinite; }
+@keyframes ywheel-idle-wobble { 0%, 100% { transform: rotate(-4deg); } 50% { transform: rotate(4deg); } }
+@media (prefers-reduced-motion: reduce) { .ywheel-canvas.ywheel-idle, .ywheel-hub { animation: none; } }
+.ywheel-pointer {
+  position: absolute; top: -2px; left: 50%; transform: translateX(-50%); z-index: 2;
+  width: 0; height: 0; border-left: 15px solid transparent; border-right: 15px solid transparent;
+  border-top: 30px solid var(--yw-pointer, #111827); filter: drop-shadow(0 3px 3px rgba(0,0,0,0.35));
+}
+.ywheel-hub {
+  position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); z-index: 2;
+  width: 88px; height: 88px; border-radius: 50%; background: #fff;
+  display: flex; align-items: center; justify-content: center;
+  box-shadow: 0 6px 18px rgba(0,0,0,0.18); font-size: 24px;
+  animation: ywheel-hub-pulse 2.2s ease-in-out infinite;
+}
+/* Ortadaki logo/göbek nabız gibi küçülüp büyür (translate korunur) */
+@keyframes ywheel-hub-pulse {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); }
+  50% { transform: translate(-50%, -50%) scale(1.08); }
+}
+.ywheel-hub img { max-width: 76%; max-height: 76%; object-fit: contain; }
+
+/* ── Sol (B varyantı): Kazı Kazan kartı — "SANA ÖZEL" ── */
+.ywheel-left-scratch { flex-basis: 48%; padding: 26px 20px; }
+.ywheel-card {
+  width: 340px; max-width: 100%; border-radius: 18px; overflow: hidden; background: #fff; color: #111827;
+  box-shadow: 0 18px 44px rgba(0,0,0,0.35); border: 1px solid rgba(0,0,0,0.08);
+  transform: rotate(-1.5deg); transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.ywheel-card.ywheel-card-open { transform: rotate(0deg) scale(1.02); box-shadow: 0 22px 50px rgba(0,0,0,0.4); }
+.ywheel-card-head {
+  padding: 12px 16px 10px; text-align: center; font-size: 13px; font-weight: 900; letter-spacing: 4px;
+  background: var(--yw-accent, #111); color: var(--yw-btn-text, #fff);
+}
+.ywheel-card-logo { display: block; max-height: 34px; max-width: 60%; margin: 12px auto 0; object-fit: contain; }
+.ywheel-card-body { position: relative; margin: 12px 10px; border-radius: 12px; overflow: hidden; background: #fafafa; }
+.ywheel-card-prize {
+  width: 320px; max-width: 100%; height: 180px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 6px;
+  background: radial-gradient(circle at 50% 40%, #fff7ed, #fde68a 70%, #f59e0b 140%);
+}
+.ywheel-card-prize-emoji { font-size: 40px; line-height: 1; }
+.ywheel-card-prize-text { font-size: 26px; font-weight: 900; letter-spacing: -0.3px; text-align: center; padding: 0 12px; line-height: 1.15; color: #111827; }
+.ywheel-scratch {
+  position: absolute; inset: 0; width: 100%; height: 100%; display: block; cursor: not-allowed;
+  touch-action: none; user-select: none; -webkit-user-select: none; transition: opacity 0.45s ease;
+}
+.ywheel-scratch.ywheel-scratch-ready { cursor: crosshair; }
+.ywheel-scratch.ywheel-scratch-ready:not(.ywheel-scratch-done) { animation: ywheel-foil-pulse 1.6s ease-in-out infinite; }
+@keyframes ywheel-foil-pulse { 0%, 100% { filter: brightness(1); } 50% { filter: brightness(1.08); } }
+.ywheel-scratch.ywheel-scratch-done { opacity: 0; pointer-events: none; animation: none; }
+.ywheel-card-foot { padding: 0 16px 14px; text-align: center; font-size: 12.5px; font-weight: 700; color: #b45309; }
+/* Formsuz kazı kazan: sağ kolonda "Sana Özel Hediye" kutusu (sayaç kazımadan önce akar) */
+.ywheel-giftbox {
+  margin-top: 6px; padding: 16px 14px; border-radius: 14px; text-align: center;
+  background: linear-gradient(160deg, #fff7ed, #fef3c7); border: 1px solid #fcd34d; color: #111827;
+}
+.ywheel-giftbox-title { font-size: 16px; font-weight: 900; letter-spacing: 0.3px; margin-bottom: 8px; }
+.ywheel-giftbox-cd { font-size: 13px; color: #92400e; font-weight: 600; min-height: 20px; line-height: 1.45; }
+.ywheel-giftbox-simple { padding: 12px 12px; }
+.ywheel-giftbox-cdlabel { font-size: 12px; color: #92400e; margin-bottom: 4px; }
+.ywheel-giftbox .ywheel-countdown { margin: 4px 0 6px; }
+.ywheel-giftbox .ywheel-cd-box { background: #111827; color: #fff; min-width: 56px; }
+.ywheel-giftbox .ywheel-scratch-hint { margin-top: 6px; font-size: 13px; }
+.ywheel-scratch-hint { margin-top: 10px; text-align: center; font-size: 14px; font-weight: 700; color: #111827; animation: ywheel-pop 0.4s ease; }
+.ywheel-validity.ywheel-urgent { color: #b45309; font-weight: 600; opacity: 1; }
+
+/* ── Formsuz kazı kazan: KOMPAKT iki kolon — solda BÜYÜK kazıma kartı, sağda başlık + 1 satır ── */
+.ywheel-overlay-light { background: rgba(15, 23, 42, 0.28); backdrop-filter: none; }
+.ywheel-modal-compact { max-width: 680px; width: auto; border-radius: 20px; }
+.ywheel-modal-compact .ywheel-left-scratch { flex: none; padding: 18px 16px 18px 20px; }
+.ywheel-modal-compact .ywheel-card { width: 380px; max-width: 100%; transform: rotate(-1deg); }
+.ywheel-modal-compact .ywheel-card-prize { width: 360px; height: 220px; }
+.ywheel-modal-compact .ywheel-card-prize-text { font-size: 30px; }
+.ywheel-modal-compact .ywheel-card-logo { max-height: 26px; margin-top: 8px; }
+.ywheel-modal-compact .ywheel-card-foot { display: none; }
+.ywheel-compact-side {
+  flex: 1 1 220px; display: flex; flex-direction: column; justify-content: center; gap: 8px;
+  padding: 22px 22px 22px 10px; color: var(--yw-text, #111827);
+}
+.ywheel-compact-title { font-size: 24px; font-weight: 900; line-height: 1.1; }
+.ywheel-compact-sub { font-size: 13.5px; opacity: 0.85; line-height: 1.4; }
+.ywheel-compact-note { margin-top: 6px; font-size: 13px; font-weight: 700; opacity: 0.95; min-height: 16px; }
+.ywheel-modal-compact .ywheel-replay { display: block; margin: 8px 0 0; text-align: left; }
+
+/* ── Sağ: form (temiz beyaz panel) ── */
+.ywheel-right {
+  flex: 1 1 54%; padding: 24px 28px; display: flex; flex-direction: column; justify-content: center; align-items: center;
+  overflow-y: auto; background: #ffffff; color: #1f2937;
+  box-shadow: -1px 0 0 rgba(0,0,0,0.06);
+}
+/* İçeriği dar tut + ortala → inputlar makul genişlikte, hizalı */
+.ywheel-title, .ywheel-subtitle, .ywheel-form, .ywheel-result { width: 100%; max-width: 340px; }
+.ywheel-title { font-size: 24px; font-weight: 800; line-height: 1.15; margin: 0 0 3px; color: #111827; }
+.ywheel-subtitle { font-size: 13.5px; color: #6b7280; margin: 0 0 11px; line-height: 1.4; }
+
+.ywheel-form { display: flex; flex-direction: column; gap: 5px; }
+.ywheel-field { display: flex; flex-direction: column; gap: 1px; }
+.ywheel-input {
+  width: 100%; padding: 10px 13px; border-radius: 10px; border: 1.5px solid #e5e7eb;
+  font-size: 14px; color: #111827; background: #fff; outline: none; transition: border-color 0.15s, box-shadow 0.15s;
+}
+.ywheel-input::placeholder { color: #9ca3af; }
+.ywheel-input:focus { border-color: var(--yw-accent, #111827); box-shadow: 0 0 0 3px rgba(17,24,39,0.08); }
+.ywheel-input.ywheel-invalid { border-color: #f87171; background: #fff5f5; }
+.ywheel-fielderr { font-size: 11px; color: #dc2626; font-weight: 600; min-height: 0; padding-left: 2px; }
+.ywheel-fielderr:empty { display: none; }
+
+.ywheel-consent { display: flex; align-items: flex-start; gap: 8px; font-size: 11.5px; line-height: 1.4; color: #6b7280; text-align: left; cursor: pointer; }
+/* Son kişisel-veri input'u ile onay kutuları arası nefes (üstteki başlık boşluğuyla simetrik) */
+.ywheel-consent:first-of-type { margin-top: 10px; }
+.ywheel-consent input { margin-top: 2px; width: 16px; height: 16px; flex-shrink: 0; accent-color: var(--yw-accent, #111827); cursor: pointer; }
+.ywheel-consent a { color: #374151; text-decoration: underline; }
+
+.ywheel-btn {
+  margin-top: 5px; padding: 13px; border: none; border-radius: 11px; cursor: pointer;
+  font-size: 16px; font-weight: 800; color: var(--yw-btn-text, #111827); background: var(--yw-accent, #fbbf24);
+  transition: filter 0.15s, transform 0.08s, opacity 0.15s; box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+}
+.ywheel-btn:hover:not(:disabled) { filter: brightness(1.06); }
+.ywheel-btn:active:not(:disabled) { transform: scale(0.98); }
+.ywheel-btn:disabled { opacity: 0.45; cursor: not-allowed; box-shadow: none; }
+
+.ywheel-formerr { color: #dc2626; font-weight: 600; font-size: 12px; min-height: 14px; text-align: center; }
+.ywheel-hp { position: absolute !important; left: -9999px !important; top: -9999px !important; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
+
+/* ── Sonuç (kazanım) ── */
+.ywheel-result { display: none; text-align: center; animation: ywheel-pop 0.4s ease; }
+@keyframes ywheel-pop { from { transform: scale(0.85); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.ywheel-win-emoji { font-size: 44px; line-height: 1; }
+.ywheel-win-title { font-size: 22px; font-weight: 800; margin: 6px 0 2px; line-height: 1.2; color: #111827; }
+.ywheel-win-prize { font-size: 25px; font-weight: 900; line-height: 1.15; letter-spacing: -0.3px; margin: 2px 0 14px; color: #111827; }
+/* Minimum sepet koşulu — ödülün hemen altında, rozet gibi net görünür (açık zemin) */
+.ywheel-minbasket {
+  display: inline-block; margin: -8px 0 14px; padding: 5px 12px; border-radius: 999px;
+  font-size: 12.5px; font-weight: 700; line-height: 1.4;
+  background: #fef3c7; color: #92400e; border: 1px solid #fcd34d;
+}
+.ywheel-code-label { font-size: 12px; font-weight: 600; opacity: 0.7; margin-bottom: 6px; }
+.ywheel-validity { font-size: 12.5px; opacity: 0.85; margin-top: 14px; line-height: 1.5; }
+.ywheel-lose { font-size: 18px; font-weight: 700; padding: 20px 0; color: #111827; }
+
+/* Kupon kodu + Kopyala butonu (kazanım ekranı = açık zemin) */
+.ywheel-code-row { display: flex; align-items: stretch; justify-content: center; gap: 8px; }
+.ywheel-code {
+  display: inline-flex; align-items: center; justify-content: center; background: #f3f4f6; color: #111827; font-weight: 800;
+  letter-spacing: 2px; font-size: 18px; padding: 12px 18px; border-radius: 10px; cursor: pointer;
+  border: 2px dashed #cbd5e1; font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  transition: border-color 0.15s, background 0.15s;
+}
+.ywheel-code:hover { border-color: #94a3b8; }
+.ywheel-code.copied { border-color: #16a34a; background: #f0fdf4; }
+.ywheel-copybtn {
+  border: none; border-radius: 10px; cursor: pointer; padding: 0 16px; font-size: 13px; font-weight: 700;
+  background: var(--yw-accent, #111827); color: var(--yw-btn-text, #fff); white-space: nowrap; transition: filter 0.15s;
+}
+.ywheel-copybtn:hover { filter: brightness(1.08); }
+.ywheel-copybtn.copied { background: #16a34a; color: #fff; }
+
+/* Yeşil başarı kartı (kulakçıktan açılan kupon paneli) — kod/Kopyala koyu zemine uyarlanır */
+.ywheel-success { color: #fff; }
+.ywheel-success .ywheel-win-title,
+.ywheel-success .ywheel-win-prize { color: #fff; }
+.ywheel-success .ywheel-minbasket { background: rgba(255,255,255,0.16); color: #fff; border-color: rgba(255,255,255,0.55); }
+.ywheel-success .ywheel-code { background: rgba(255,255,255,0.12); color: #fff; border-color: rgba(255,255,255,0.8); }
+.ywheel-success .ywheel-code.copied { background: rgba(255,255,255,0.25); border-color: #fff; }
+.ywheel-success .ywheel-copybtn { background: #fff; color: #2f7d57; }
+
+/* Önizleme-only tekrar test linki (müşteriye gösterilmez) */
+.ywheel-replay {
+  display: inline-block; margin-top: 16px; background: none; border: none; cursor: pointer;
+  font-size: 12px; color: #9ca3af; text-decoration: underline;
+}
+.ywheel-replay:hover { color: #6b7280; }
+
+/* ── Kupon drawer'ı: çevirdikten sonra kulakçıktan SAĞDAN açılan yeşil panel ── */
+.ywheel-coupon-overlay {
+  position: fixed; inset: 0; z-index: 2147483000; background: rgba(15,23,42,0.45);
+  opacity: 0; transition: opacity 0.3s ease;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+}
+.ywheel-coupon-overlay.ywheel-in { opacity: 1; }
+.ywheel-coupon-overlay *, .ywheel-coupon-overlay *::before, .ywheel-coupon-overlay *::after { box-sizing: border-box; }
+/* İçerik yüksekliğinde (full-height DEĞİL), sağ kenarda dikey ortalı, sağdan kayar */
+.ywheel-drawer {
+  position: fixed; top: 50%; right: 0; width: 500px; max-width: 94vw; max-height: 92vh;
+  background: linear-gradient(160deg, #56ab7d, #3f9168); color: #fff;
+  box-shadow: -12px 0 40px rgba(0,0,0,0.35); border-radius: 18px 0 0 18px;
+  display: flex; overflow: hidden;
+  transform: translateY(-50%) translateX(100%); transition: transform 0.34s cubic-bezier(0.22, 1, 0.36, 1);
+}
+.ywheel-coupon-overlay.ywheel-in .ywheel-drawer { transform: translateY(-50%) translateX(0); }
+.ywheel-drawer-side {
+  flex: 0 0 56px; display: flex; flex-direction: column; align-items: center; gap: 14px;
+  padding: 16px 0; background: rgba(0,0,0,0.12);
+}
+.ywheel-drawer-back { background: none; border: none; color: #fff; font-size: 30px; line-height: 1; cursor: pointer; opacity: 0.9; }
+.ywheel-drawer-back:hover { opacity: 1; }
+.ywheel-drawer-sidetext { writing-mode: vertical-rl; font-weight: 700; letter-spacing: 0.5px; font-size: 15px; }
+.ywheel-drawer-body { flex: 1; text-align: center; padding: 30px 26px; display: flex; flex-direction: column; justify-content: center; }
+.ywheel-drawer .ywheel-close { background: rgba(255,255,255,0.2); }
+.ywheel-drawer .ywheel-close:hover { background: rgba(255,255,255,0.35); }
+
+/* Geri sayım kutuları (kupon drawer'ında 24 saatten geri sayar) */
+.ywheel-countdown { display: flex; justify-content: center; gap: 8px; margin: 6px 0 18px; flex-wrap: wrap; }
+.ywheel-cd-box { background: rgba(0,0,0,0.18); border-radius: 12px; padding: 10px 8px; min-width: 60px; }
+.ywheel-cd-num { font-size: 26px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+.ywheel-cd-lab { font-size: 11px; opacity: 0.9; margin-top: 5px; }
+
+/* ── Yan kulakçık (sticky tab) — Bambi tarzı ── */
+.ywheel-tab {
+  position: fixed; top: 50%; transform: translateY(-50%); z-index: 2147482000;
+  background: var(--yw-accent, #111111); color: var(--yw-btn-text, #fff);
+  box-shadow: 0 6px 20px rgba(0,0,0,0.3);
+  display: flex; flex-direction: column; align-items: center;
+}
+.ywheel-tab-left { left: 0; border-radius: 0 14px 14px 0; }
+.ywheel-tab-right { right: 0; border-radius: 14px 0 0 14px; }
+/* Çevirdikten sonra: yeşil "Çark Hediyesi" kulakçığı (accent'i ezer) */
+.ywheel-tab-coupon { background: linear-gradient(160deg, #56ab7d, #3f9168); color: #fff; }
+.ywheel-tab-x {
+  /* 3 Eki 2026: "Uygulamaya Özel" kulakçığındaki × ile aynı — köşede beyaz yuvarlak */
+  position: absolute; top: -9px; width: 22px; height: 22px; margin: 0; padding: 0; border: none; border-radius: 50%;
+  background: #fff; color: #333; font: 16px/20px Arial, sans-serif; text-align: center; cursor: pointer;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.3); z-index: 2;
+}
+.ywheel-tab-left .ywheel-tab-x { right: -9px; }
+.ywheel-tab-right .ywheel-tab-x { left: -9px; }
+.ywheel-tab-btn {
+  background: none; border: none; color: inherit; cursor: pointer; padding: 14px 12px 14px;
+  display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.ywheel-tab-label { writing-mode: vertical-rl; text-orientation: mixed; font-size: 15px; font-weight: 700; letter-spacing: 0.5px; }
+.ywheel-tab-icon { display: block; }
+/* Kazı kazan kuponu kulakçığı: kalan süre etiketin içinde (dikey yazı; kulakçık genişlemez) */
+.ywheel-tab-timer-inline { font-variant-numeric: tabular-nums; font-weight: 800; }
+.ywheel-tab-timer-inline.ywheel-tab-timer-urgent { color: #fecaca; animation: ywheel-timer-blink 1s ease-in-out infinite; }
+/* (eski ayrı rozet — artık kullanılmıyor) */
+.ywheel-tab-timer {
+  display: block; writing-mode: horizontal-tb; margin-top: 2px; padding: 3px 7px; border-radius: 999px;
+  background: #111827; color: #fff; font-size: 12px; font-weight: 800; font-variant-numeric: tabular-nums; letter-spacing: 0.5px;
+}
+.ywheel-tab-timer.ywheel-tab-timer-urgent { background: #dc2626; animation: ywheel-timer-blink 1s ease-in-out infinite; }
+@keyframes ywheel-timer-blink { 0%, 100% { opacity: 1; } 50% { opacity: 0.55; } }
+
+/* ── Mobil ── */
+/* ── Mobil (tam responsive) ── */
+@media (max-width: 680px) {
+  .ywheel-overlay { padding: 8px; align-items: center; }
+  .ywheel-modal {
+    flex-direction: column; max-width: 420px; width: 100%; max-height: 96vh;
+    overflow-y: auto; border-radius: 18px;
+  }
+  /* Çark mobilde BÜYÜK: modal genişliğini neredeyse tamamen doldurur (form aşağı kayar,
+     modal zaten dikey kaydırılabilir). Eski 72vw/285px kullanıcılara küçük geldi. */
+  .ywheel-left { flex: none; padding: 10px 8px 0; }
+  .ywheel-wheelwrap { width: min(94vw, 362px); }
+  .ywheel-left-scratch { padding: 12px 10px 0; }
+  /* Kompakt kazı kazan mobilde: KÜÇÜK kutu — genişlik ~%85, yükseklik en fazla %60; site arkada görünür */
+  .ywheel-overlay-light { padding: 0; }
+  .ywheel-modal-compact {
+    width: min(85vw, 330px) !important; max-width: 85vw !important; max-height: 60vh !important;
+    height: auto; overflow: hidden; flex-direction: column; border-radius: 16px;
+  }
+  /* Sıra: yazı ÜSTTE, kart ALTTA. flex:none → kolon düzeninde yüzdelik yükseklik (boşluk) kalmaz. */
+  .ywheel-modal-compact .ywheel-left-scratch { flex: none !important; padding: 4px 10px 12px; order: 2; }
+  .ywheel-compact-side { flex: none !important; order: 1; }
+  .ywheel-modal-compact .ywheel-card { width: 100%; transform: none; border-radius: 14px; }
+  .ywheel-modal-compact .ywheel-card-head { padding: 6px 10px 5px; font-size: 11px; letter-spacing: 3px; }
+  .ywheel-modal-compact .ywheel-card-logo { display: none; }
+  .ywheel-modal-compact .ywheel-card-body { margin: 8px 8px 8px; }
+  .ywheel-modal-compact .ywheel-card-prize { width: 100%; height: 140px; }
+  .ywheel-modal-compact .ywheel-card-prize-emoji { font-size: 30px; }
+  .ywheel-modal-compact .ywheel-card-prize-text { font-size: 22px; }
+  .ywheel-compact-side { padding: 14px 36px 4px 14px; text-align: left; gap: 2px; }
+  .ywheel-compact-title { font-size: 16px; }
+  .ywheel-compact-sub { display: none; }
+  .ywheel-compact-note { font-size: 12px; margin-top: 2px; }
+  .ywheel-modal-compact .ywheel-close { top: 6px; right: 6px; width: 26px; height: 26px; font-size: 15px; }
+  .ywheel-card { width: min(92vw, 340px); transform: none; }
+  .ywheel-card-prize { height: 150px; }
+  .ywheel-card-prize-text { font-size: 22px; }
+  .ywheel-card-head { padding: 9px 12px 8px; font-size: 12px; letter-spacing: 3px; }
+  .ywheel-card-foot { padding-bottom: 10px; font-size: 12px; }
+  .ywheel-hub { width: 74px; height: 74px; }
+  .ywheel-right { flex: none; padding: 12px 16px 14px; box-shadow: none; }
+  .ywheel-title, .ywheel-subtitle, .ywheel-form, .ywheel-result { max-width: 320px; }
+  .ywheel-title { font-size: 18px; margin-bottom: 1px; }
+  .ywheel-subtitle { font-size: 12px; margin-bottom: 4px; }
+  .ywheel-form { gap: 4px; margin-top: 10px; }   /* kişisel veri alanlarından önce hafif boşluk */
+  .ywheel-input { padding: 8px 12px; font-size: 16px; }   /* 16px → iOS zoom engeli */
+  .ywheel-consent { font-size: 10.5px; gap: 6px; line-height: 1.3; }
+  .ywheel-consent input { width: 15px; height: 15px; }
+  .ywheel-btn { padding: 11px; font-size: 16px; margin-top: 2px; }
+  .ywheel-close { top: 6px; right: 8px; }
+  /* Yan kulakçık (Çark / Çark Hediyesi) mobilde daha küçük — ekranı az kaplasın */
+  .ywheel-tab-btn { padding: 10px 6px 9px; gap: 6px; }
+  /* Kupon kulakçığı mobilde çarkınkiyle BİREBİR aynı; sayaç etiketin içinde dikey yazı olarak akar */
+
+  .ywheel-tab-label { font-size: 11.5px; letter-spacing: 0.2px; }
+  .ywheel-tab-icon { width: 16px; height: 16px; }
+  .ywheel-tab-x { width: 20px; height: 20px; font-size: 15px; line-height: 18px; margin: 0; }
+  /* Kupon drawer'ı mobilde: içerik yüksekliği korunur, neredeyse tam genişlik */
+  /* Kupon paneli (kulakçığa tıklayınca sağdan açılan) mobilde daha kompakt */
+  .ywheel-drawer { width: 300px; max-width: 86vw; }
+  .ywheel-drawer-side { flex: 0 0 36px; }
+  .ywheel-drawer-sidetext { font-size: 12.5px; }
+  .ywheel-drawer-back { font-size: 24px; }
+  .ywheel-drawer-body { padding: 18px 14px; }
+  .ywheel-win-emoji { font-size: 36px; }
+  .ywheel-win-title { font-size: 18px; }
+  .ywheel-win-prize { font-size: 20px; margin: 2px 0 10px; }
+  .ywheel-code-row { gap: 6px; }
+  .ywheel-code { font-size: 14px; padding: 9px 12px; letter-spacing: 1px; white-space: nowrap; }
+  .ywheel-copybtn { padding: 0 12px; font-size: 12px; }
+  .ywheel-validity { font-size: 11.5px; margin-top: 10px; }
+  .ywheel-countdown { gap: 5px; margin: 4px 0 12px; }
+  .ywheel-cd-box { min-width: 44px; padding: 7px 3px; border-radius: 9px; }
+  .ywheel-cd-num { font-size: 18px; }
+  .ywheel-cd-lab { font-size: 9.5px; margin-top: 3px; }
+}
+/* Çok dar ekran — çark yine büyük kalır, modal dikeyde kaydırılır */
+@media (max-width: 380px) {
+  .ywheel-left { padding: 8px 6px 0; }
+  .ywheel-wheelwrap { width: min(95vw, 340px); }
+  .ywheel-hub { width: 66px; height: 66px; }
+  .ywheel-right { padding: 10px 14px 12px; }
+  .ywheel-title { font-size: 17px; }
+  .ywheel-subtitle { font-size: 11.5px; margin-bottom: 3px; }
+}
+/* Çok alçak ekran (yatay/mini): çark biraz küçülsün ki form sığsın */
+@media (max-height: 640px) and (max-width: 680px) {
+  .ywheel-wheelwrap { width: min(64vw, 250px); }
+  .ywheel-left { padding: 8px 10px 0; }
+  .ywheel-form { margin-top: 6px; }
+}
