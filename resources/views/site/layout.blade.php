@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>@yield('title', config('saas.brand.name') . ' — ' . config('saas.brand.tagline'))</title>
 <meta name="description" content="@yield('description', $landing['meta_description'] ?? config('saas.brand.tagline'))">
-<link rel="icon" href="/favicon.ico" sizes="any">
+<link rel="icon" href="/favicon.ico?v=2" sizes="any">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=2">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png?v=2">
 <link rel="canonical" href="{{ url()->current() }}">
 <meta property="og:title" content="@yield('title', config('saas.brand.name') . ' — ' . config('saas.brand.tagline'))">
 <meta property="og:description" content="@yield('description', $landing['meta_description'] ?? config('saas.brand.tagline'))">
