@@ -1,12 +1,12 @@
 /* Yunbi "Gelince Haber Ver" v2 — temaya TEK satır eklenir:
-   <script src="https://hub.yunbi.ai/widget/stock-alert.js?v=2" data-tenant="SLUG" async></script>
+   <script src="https://eticaretq.com/widget/stock-alert.js?v=2" data-tenant="SLUG" async></script>
    Panelden girilen CSS seçicisindeki butona tıklama yakalanır, mini form açılır,
    ürün sayfadan otomatik tespit edilir (JSON-LD sku/barkod → URL yolu).
    İsteğe bağlı gelişmiş kullanım: data-yunbi-stock-alert formu / YunbiStockAlert.subscribe(). */
 (function () {
   var s = document.currentScript, tenant = s && s.getAttribute('data-tenant');
   if (!tenant) return;
-  var base = 'https://hub.yunbi.ai/w/' + tenant + '/stock-alert';
+  var base = 'https://eticaretq.com/w/' + tenant + '/stock-alert';
 
   function post(productId, data) {
     return fetch(base, {

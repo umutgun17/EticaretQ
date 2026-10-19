@@ -1,7 +1,7 @@
 /*!
  * Yunbi Çark (Spin-to-Win) widget — profesyonel iki-kolon tasarım, bağımsız (no deps).
  *
- *   <script src="https://hub.yunbi.ai/widget/wheel.js?v=6"
+ *   <script src="https://eticaretq.com/widget/wheel.js?v=6"
  *           data-tenant="tonnyblack" data-campaign="yaz-carki"
  *           async crossorigin="anonymous" integrity="sha384-..."></script>
  *

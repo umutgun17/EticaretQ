@@ -7,7 +7,7 @@
  *
  * Kullanım (Ticimax özel sayfasına yapıştır):
  *   <div id="yunbi-iade"></div>
- *   <script src="https://hub.yunbi.ai/iade/embed.js"
+ *   <script src="https://eticaretq.com/iade/embed.js"
  *           data-slug="tonnyblack" data-target="yunbi-iade"></script>
  *
  * data-slug   : tenant slug'ı (varsayılan: tonnyblack)
@@ -27,10 +27,11 @@
   try {
     origin = new URL(script.src, window.location.href).origin;
   } catch (e) {
-    origin = 'https://hub.yunbi.ai';
+    origin = 'https://eticaretq.com';
   }
 
-  var slug = script.getAttribute('data-slug') || 'tonnyblack';
+  var slug = script.getAttribute('data-slug') || '';
+  if (!slug) { return; }
   var targetId = script.getAttribute('data-target') || 'yunbi-iade';
 
   var mount = document.getElementById(targetId);

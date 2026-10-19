@@ -1,5 +1,5 @@
 /*! Yunbi "Sana Özel" öneri kulakçığı (CRO) — ziyaretçi dolaştıkça kişiselleşen 3-4 ürünlük yan panel.
- *  <script src="https://hub.yunbi.ai/widget/foryou.js?v=1" data-tenant="SLUG" async></script>
+ *  <script src="https://eticaretq.com/widget/foryou.js?v=1" data-tenant="SLUG" async></script>
  *
  *  Kademeli kaynak (sunucu karar verir): sepet > gezilen ürünler > üyenin önceki siparişleri > bulunulan kategori > çok satanlar.
  *  Kullanıcıyı rahatsız etmez: kulakçık kapalı başlar, kendiliğinden açılmaz; oturumda N ürün gezince bir kez küçük balon;

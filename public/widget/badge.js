@@ -1,5 +1,5 @@
 /*! Yunbi Ürün Rozetleri (CRO) — liste kartı + ürün detay rozetleri ve sosyal kanıt satırları.
- *  <script src="https://hub.yunbi.ai/widget/badge.js?v=11" data-tenant="SLUG" async></script>
+ *  <script src="https://eticaretq.com/widget/badge.js?v=11" data-tenant="SLUG" async></script>
  *  Veri: /w/{slug}/badges/config (gerçek satış / GA4 görüntülenme / stok / kampanya kategorisi; 15 dk'da bir üretilir).
  *  Sahte aciliyet yok: her sayı mağazanın kendi verisinden gelir, eşik altı gösterilmez.
  */

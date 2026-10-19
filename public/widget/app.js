@@ -123,7 +123,7 @@ window.YunbiQR = window.YunbiQR || (function () {
      Mobil uygulamayı indirene özel indirim kodu. Web'de kod + QR (telefonla okutunca cihaza göre App Store /
      Google Play) + mağaza butonları; mobil web'de cihaza göre tek "İndir" butonu; uygulama içinde yalnız kod.
      Bütün çıkışlar Yunbi /go yönlendirmesinden geçer → tıklama/QR okutma ölçülür; kod kullanımı siparişlerden okunur.
-     Kurulum: <script src="https://hub.yunbi.ai/widget/app.js?v=1" data-tenant="tonnyblack"></script>
+     Kurulum: <script src="https://eticaretq.com/widget/app.js?v=1" data-tenant="tonnyblack"></script>
      Demo öznitelikleri: data-force="1", data-open="1", data-theme (JSON), data-rules (JSON), data-platform (ios|android|desktop|inapp_ios|inapp_android), data-debug="1"
      ═══════════════════════════════════════════════════════════════════════ */
 

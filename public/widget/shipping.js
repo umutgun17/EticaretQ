@@ -1,7 +1,7 @@
 /*!
  * Yunbi "Bugün Kargoda" widget'ı — kargo cutoff geri sayacı (Trendyol tarzı), bağımsız (no deps).
  *
- *   <script src="https://hub.yunbi.ai/widget/shipping.js?v=1"
+ *   <script src="https://eticaretq.com/widget/shipping.js?v=1"
  *           data-tenant="tonnyblack" async crossorigin="anonymous"></script>
  *
  * TEK async script — host sitede RENDER-BLOCKING kaynak YOK, CSS shadow DOM içinde gömülü.

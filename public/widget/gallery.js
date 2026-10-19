@@ -1,7 +1,7 @@
 /*!
  * Yunbi "Ürün Galerisi" widget'ı (CRO) — ürün detay sayfasında temanın görsel slider'ını değiştirir.
  *
- *   <script src="https://hub.yunbi.ai/widget/gallery.js?v=1" data-tenant="tonnyblack" async></script>
+ *   <script src="https://eticaretq.com/widget/gallery.js?v=1" data-tenant="tonnyblack" async></script>
  *
  * Ne yapar: temanın ürün görsellerini (Ticimax #divMobileImageList / lightItem) okur, kendi galerisini çizer:
  *   • üstte büyük ana görsel — parmakla yana kaydırılır (scroll-snap), nokta + sayaç

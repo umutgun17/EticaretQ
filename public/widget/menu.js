@@ -6,7 +6,7 @@
      Segment sekmeleri (Kadın/Erkek/Çocuk) → ürün görselli kategori kartları; sıra = satış hızı × sezon
      eğrisi × cihazda gezilen kategoriler; sanal kategoriler (Çok satanlar, 299–399 TL…); popüler / kişisel ürün satırı.
      Temanın hamburger menüsünü ve Yunbi Mobil Alt Bar'ın "Kategoriler" sekmesini yakalar.
-     Kurulum (bottombar.js'ten bağımsız): <script src="https://hub.yunbi.ai/widget/menu.js?v=12" data-tenant="tonnyblack"></script>
+     Kurulum (bottombar.js'ten bağımsız): <script src="https://eticaretq.com/widget/menu.js?v=12" data-tenant="tonnyblack"></script>
      v12: sanal kategoride segment başına hedef (v.urls[seg.url]) — kampanya + Ticimax native cinsiyet filtresi.
      Demo öznitelikleri: data-force="1" (masaüstünde de + tıklamalar sayfa açmaz), data-open="1", data-preset, data-theme (JSON),
      data-profile (JSON cihaz profili), data-inline="1" (fixed yerine belge akışında, galeri iframe'i için)

@@ -6,7 +6,7 @@
  *                           gibi maddeler sırayla yukarı kayarak geçer (ayrı toggle, sayaç öncelikli)
  *   3) Güven rozetleri: ürün detayda "kargo bedava / hızlı kargo / iade garantisi" şeridi
  *
- *   <script src="https://hub.yunbi.ai/widget/announce.js?v=12"
+ *   <script src="https://eticaretq.com/widget/announce.js?v=12"
  *           data-tenant="tonnyblack" async crossorigin="anonymous"></script>
  *
  * TEK async script + TEK config isteği — host sitede render-blocking kaynak YOK, CSS shadow

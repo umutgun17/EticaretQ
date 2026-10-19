@@ -6,7 +6,7 @@
      Sekmeler dinamik: sepet adedi rozeti (Ticimax cart modeli), giriş yapmış üyenin adı,
      kategori alt sayfası (Yunbi kategori ağacı), arama (Akıllı Arama / tema araması),
      bulunulan sayfaya göre aktif sekme. 6 tema preset'i, panelden ayarlanır.
-     Kurulum: <script src="https://hub.yunbi.ai/widget/bottombar.js?v=3" data-tenant="tonnyblack"></script>
+     Kurulum: <script src="https://eticaretq.com/widget/bottombar.js?v=3" data-tenant="tonnyblack"></script>
      Akıllı Menü (menu.js) temaya AYRI script olarak eklenir; sayfada yüklüyse Kategoriler sekmesi onu açar.
      Demo öznitelikleri: data-preset, data-theme (JSON), data-force="1" (masaüstünde de göster), data-mount
      ═══════════════════════════════════════════════════════════════════════ */

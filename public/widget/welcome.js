@@ -1,5 +1,5 @@
 /*! Yunbi "Hoş geldin" ilk alışveriş hediyesi (CRO) — ilk kez gelen ziyaretçiye köşeden süzülen zarif kupon kartı.
- *  <script src="https://hub.yunbi.ai/widget/welcome.js?v=1" data-tenant="SLUG" async></script>
+ *  <script src="https://eticaretq.com/widget/welcome.js?v=1" data-tenant="SLUG" async></script>
  *
  *  Pop-up/karartma yok: masaüstünde köşe kartı, mobilde alttan küçük panel. Tetik: N. sayfada ya da ilk sayfada T sn sonra
  *  ya da masaüstünde çıkarken; ürün ve ödeme sayfasında açılmaz. Kod tek tıkla açılır + panoya kopyalanır; sonrasında

@@ -11,7 +11,7 @@
      6 yerleşim: spotlight | grid | rail | split | tabs | stories · 6 renk ön ayarı: rain | night | red | ember | forest | mono
      Dönüşüm ilkeleri (Baymard/NN-g): otomatik dönen slayt YOK, gerçek HTML metin, tek birincil eylem, hafif görsel (thumb),
      mobil önce, sahte aciliyet YOK (sayaç ve adetler sunucu verisi).
-     Kurulum: <script src="https://hub.yunbi.ai/widget/flash.js?v=1" data-tenant="tonnyblack"></script>
+     Kurulum: <script src="https://eticaretq.com/widget/flash.js?v=1" data-tenant="tonnyblack"></script>
      Demo öznitelikleri: data-force="1" (sayfa/genişlik kuralları yok), data-mount (çapa seçici; replace),
      data-layout, data-preset, data-theme (JSON), data-rules (JSON), data-debug="1"
      ═══════════════════════════════════════════════════════════════════════ */

@@ -1,7 +1,7 @@
 /*!
  * Yunbi "Sepet Kampanyası" widget'ı (CRO) — yan sepet (çekmece) + sepet/checkout sayfası.
  *
- *   <script src="https://hub.yunbi.ai/widget/cart.js?v=1" data-tenant="tonnyblack" async></script>
+ *   <script src="https://eticaretq.com/widget/cart.js?v=1" data-tenant="tonnyblack" async></script>
  *   (checkout SPA tema scriptini yüklemez → aynı satır GTM Custom HTML ile de verilir; çift yükleme korumalı)
  *
  * Ne yapar:

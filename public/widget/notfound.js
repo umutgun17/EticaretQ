@@ -1,5 +1,5 @@
 /*! Yunbi 404 Sayfası (CRO) — "sayfa bulunamadı" ekranını eğlenceli bir şablon + gerçek ürün önerileriyle değiştirir.
- *  <script src="https://hub.yunbi.ai/widget/notfound.js?v=1" data-tenant="SLUG" async></script>  (tüm sayfalar)
+ *  <script src="https://eticaretq.com/widget/notfound.js?v=1" data-tenant="SLUG" async></script>  (tüm sayfalar)
  *  Yalnız 404 sayfasında çalışır: adres (/PageNotFound.aspx, /404, aspxerrorpath), başlık (404 / bulunamadı),
  *  seçici veya tarayıcının 404 durum kodu. Diğer sayfalarda ağ isteği YAPMAZ.
  *  Test: herhangi bir adresin sonuna #yunbi404 (veya ?yunbi404=1) ekleyin.  Tema içinden: window.YunbiNotFound.show()

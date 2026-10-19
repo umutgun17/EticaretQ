@@ -7,7 +7,7 @@
      Yunbi verisiyle çalışan filtre paneli + ürün ızgarası koyar.
 
      Kurulum (tema, tüm sayfalarda):
-       <script src="https://hub.yunbi.ai/widget/filter.js?v=5" data-tenant="tonnyblack"></script>
+       <script src="https://eticaretq.com/widget/filter.js?v=5" data-tenant="tonnyblack"></script>
      v5: Ticimax ?filtre=td-135|455 (native teknik detay filtresi) Yunbi kapsamı olur: facet sayıları/beden aralığı/id listesi aynı kümede; çip ile kaldırılır.
      v4: ?kapsam=/kadin (kampanya kategorisi + segment kesişimi, menüden gelir) + etiket/marka/arama sayfalarında temaya dokunmaz.
      Yalnız kategori sayfalarında devreye girer (config.category_paths eşleşmesi).
@@ -842,7 +842,7 @@
      SSS başlık/cevap çiftlerinden FAQPage JSON-LD üretir.
 
      Bu dosya filter.js sonuna da gömülüdür (tema zaten yüklüyor); tek başına:
-       <script src="https://hub.yunbi.ai/widget/seo.js?v=1"></script>
+       <script src="https://eticaretq.com/widget/seo.js?v=1"></script>
      ═══════════════════════════════════════════════════════════════════════ */
 
   if (window.__ybSeoContent) return;

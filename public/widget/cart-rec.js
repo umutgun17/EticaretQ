@@ -20,8 +20,9 @@
   w.__yunbiCartRec = true;
 
   var script = d.currentScript || (function () { var s = d.getElementsByTagName('script'); return s[s.length - 1]; })();
-  var HUB = (script && script.src ? script.src.split('/widget/')[0] : 'https://hub.yunbi.ai');
-  var TENANT = (script && script.getAttribute('data-tenant')) || 'tonnyblack';
+  var HUB = (script && script.src ? script.src.split('/widget/')[0] : 'https://eticaretq.com');
+  var TENANT = (script && script.getAttribute('data-tenant')) || '';
+  if (!TENANT) { return; }
   var BASE = HUB + '/w/' + TENANT + '/rec';
 
   var CFG = null;

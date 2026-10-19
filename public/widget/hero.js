@@ -9,7 +9,7 @@
      Ekran kenarında dikkat çekici bir kulakçık (ribbon/pill/badge); tıklanınca (veya belirlenen süre
      sonra kendiliğinden) açılan çekmecede panelden seçilen 2-4 hero ürün, gerçek sayaç (gece 23:59 veya
      set bitişi), gerçek stok notu, beden çipleriyle çekmeceden sepete ekleme (Ticimax AddToCartV3), kupon.
-     Kurulum: <script src="https://hub.yunbi.ai/widget/hero.js?v=3" data-tenant="tonnyblack"></script>
+     Kurulum: <script src="https://eticaretq.com/widget/hero.js?v=3" data-tenant="tonnyblack"></script>
      Demo öznitelikleri: data-force="1" (gizleme/sıklık kuralları yok), data-open="1" (hemen aç),
      data-theme (JSON), data-rules (JSON), data-mount (iframe demo), data-debug="1"
      ═══════════════════════════════════════════════════════════════════════ */

@@ -1,7 +1,7 @@
 /*!
  * Yunbi "Beden Seçimi" (CRO) — KALICI YÜKLEYİCİ. Temaya bir kez eklenir, bir daha değiştirilmez:
  *
- *   <script src="https://hub.yunbi.ai/widget/variant.js?v=4" data-tenant="tonnyblack"></script>
+ *   <script src="https://eticaretq.com/widget/variant.js?v=4" data-tenant="tonnyblack"></script>
  *
  * Asıl kod widget/variant-core.js'tedir ve sürüm numarasıyla (?b=…) yüklenir; sürüm sunucudaki ayar ucundan
  * (/w/{slug}/variant/config → build) okunur. Böylece CDN önbelleği yüzünden temadaki ?v= numarasını her
