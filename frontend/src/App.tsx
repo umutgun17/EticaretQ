@@ -7,6 +7,7 @@ import ForgotPasswordPage from '@/pages/saas/ForgotPasswordPage'
 import ResetPasswordPage from '@/pages/saas/ResetPasswordPage'
 import BillingPage from '@/pages/saas/BillingPage'
 import AdminSubscriptionsPage from '@/pages/saas/AdminSubscriptionsPage'
+import TenantsPage from '@/pages/TenantsPage'
 import HomePage from '@/pages/HomePage'
 import ChannelsPage from '@/pages/ChannelsPage'
 import UsersPage from '@/pages/UsersPage'
@@ -144,6 +145,7 @@ export default function App() {
             <Route path="/settings/review-widget" element={<ReviewWidgetSettingsPage />} />
             <Route path="/billing" element={<BillingPage />} />
             <Route path="/admin/subscriptions" element={<AdminSubscriptionsPage />} />
+            <Route path="/admin/tenants" element={<TenantsPage />} />
             <Route path="/settings/channels" element={<ChannelsPage />} />
             <Route path="/settings/users" element={<UsersPage />} />
             <Route path="/settings/users/activity" element={<UserActivityPage />} />
