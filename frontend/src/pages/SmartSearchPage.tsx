@@ -254,9 +254,9 @@ export default function SmartSearchPage() {
           <p className="text-sm text-gray-500 mt-0.5">Ne aranıyor, kaç tıklama, aramadan ciro ve kelime optimizasyonu.</p>
         </div>
         <div className="flex items-center gap-2">
-          <a href="/widget/search-demo.html" target="_blank" rel="noreferrer"
+          <a href={`/widget/search-demo.html?tenant=${st?.slug ?? ''}`} target="_blank" rel="noreferrer"
             className="text-sm text-indigo-600 hover:text-indigo-700 font-medium flex items-center gap-1 mr-2">
-            <ExternalLink size={15} /> Demo'yu aç
+            <ExternalLink size={15} /> Demoyu aç
           </a>
           <div className="flex bg-gray-100 rounded-lg p-0.5">
             {RANGES.map(([r, label]) => (
@@ -401,7 +401,7 @@ export default function SmartSearchPage() {
                       {st.template === key && (
                         <span className="text-[10px] font-bold text-white bg-indigo-500 rounded-full px-2 py-0.5">KULLANILIYOR</span>
                       )}
-                      <a href={`/widget/search-demo.html?template=${key}`} target="_blank" rel="noreferrer"
+                      <a href={`/widget/search-demo.html?tenant=${st?.slug ?? ''}&template=${key}`} target="_blank" rel="noreferrer"
                         onClick={(e) => e.stopPropagation()}
                         className="ml-auto text-[11px] font-medium text-indigo-600 hover:text-indigo-700 flex items-center gap-1">
                         <ExternalLink size={11} /> Canlı önizle

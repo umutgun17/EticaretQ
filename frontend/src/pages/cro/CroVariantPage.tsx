@@ -63,7 +63,17 @@ export default function CroVariantPage() {
       .catch(() => setError('Ayarlar yüklenemedi')).finally(() => setLoading(false))
   }, [])
   useEffect(() => { load() }, [load])
-  const loadPreview = useCallback(() => { api.get<Preview>('/cro/variant/preview').then((r) => setPreview(r.data)).catch(() => null) }, [])
+  // Ürünü olmayan mağazada backend boş nesne ({}) döner — onu örnek sanıp ColorPreview'u çökertme
+  const [previewEmpty, setPreviewEmpty] = useState(false)
+  const loadPreview = useCallback(() => {
+    api.get<Preview>('/cro/variant/preview')
+      .then((r) => {
+        const ok = Array.isArray(r.data?.items) && r.data.items.length > 0 && !!r.data.data
+        setPreview(ok ? r.data : null)
+        setPreviewEmpty(!ok)
+      })
+      .catch(() => setPreviewEmpty(true))
+  }, [])
   useEffect(() => { loadPreview() }, [loadPreview])
   useEffect(() => { api.get('/cro/variant/analytics', { params: { days: anDays } }).then((r) => setAn(r.data)).catch(() => null) }, [anDays])
 
@@ -195,7 +205,7 @@ export default function CroVariantPage() {
           <div>
             <div className="text-xs font-semibold text-gray-600 mb-2">Önizleme {preview?.model && <span className="font-normal text-gray-400">— gerçek ürün: {preview.model}</span>}</div>
             <div className="border border-gray-100 rounded-xl p-4 bg-white">
-              {preview ? <ColorPreview c={c} l={l} p={preview} /> : <div className="text-xs text-gray-400">Örnek ürün yükleniyor…</div>}
+              {preview ? <ColorPreview c={c} l={l} p={preview} /> : <div className="text-xs text-gray-400">{previewEmpty ? 'Önizleme için mağazada henüz birden çok rengi olan ürün yok.' : 'Örnek ürün yükleniyor…'}</div>}
             </div>
             <p className="text-[11px] text-gray-400 mt-2">Akıllı sıralama, kategori sıralamasındaki puanı kullanır (önce numarası tam olan renk, sonra stok, satış, ilgi); ‘Popüler’ etiketi sıranın en üstündeki, en az satış şartını geçen renklere gider. Puanlar 30 dakikada, veri 10 dakikada bir tazelenir. Önizleme kaydedilmemiş değişiklikleri de gösterir.</p>
           </div>

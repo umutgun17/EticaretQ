@@ -19,20 +19,13 @@ import {
   Scale,
   BarChart3,
   Package,
-  Smartphone,
   Sparkles,
-  Gift,
   Zap,
   Users2,
   Send,
   Settings2,
-  Disc3,
-  Truck,
   BellRing,
   AlarmClock,
-  Search,
-  FolderTree,
-  Rotate3d,
   Users,
   UserRound,
   Building2,
@@ -42,17 +35,7 @@ import {
   Heart,
   ShieldCheck,
   Gauge,
-  ClipboardList,
-  ScanSearch,
-  SlidersHorizontal,
-  PanelBottom,
   LayoutGrid,
-  Flame,
-  Images,
-  BadgePercent,
-  Ghost,
-  Ruler,
-  ShoppingBasket,
   X,
   CreditCard,
 } from 'lucide-react'
@@ -60,6 +43,8 @@ import clsx from 'clsx'
 import type { LucideIcon } from 'lucide-react'
 import BrandMark from '@/components/saas/BrandMark'
 import { BRAND } from '@/lib/brand'
+import { findCroGroup, findCroTool, useCroToolGroups, type CroTool } from '@/lib/croTools'
+import ToolInfo from '@/components/cro/ToolInfo'
 
 interface NavItem {
   to: string
@@ -67,6 +52,9 @@ interface NavItem {
   label: string
   end?: boolean
   show: boolean
+  active?: boolean // tanımlıysa NavLink eşleşmesi yerine bu kullanılır (ör. /cro/tools#kategori bağlantıları)
+  sub?: boolean // bir üst öğenin altında girintili gösterilir
+  tool?: CroTool // CRO aracı: yanında ⓘ (ekran görüntüsü) gösterilir
 }
 
 interface NavGroup {
@@ -81,6 +69,7 @@ interface Product {
   icon: LucideIcon
   chip: string // panel başlığındaki renkli ikon çipi (Base SaaS stili)
   subscription?: string // abonelik kontrolünde kullanılacak ürün anahtarı (store → comments)
+  alsoFor?: string[] // bu ürünlerden birine sahip tenant da görür (CRO: eski Pazarlama widget'ları)
   prefixes: string[]
   groups: NavGroup[]
 }
@@ -89,6 +78,13 @@ export function useProducts(): Product[] {
   const { t } = useTranslation()
   const { user, hasPermission, hasProduct } = useAuth()
   const su = !!user?.is_super_admin
+  const loc = useLocation()
+  const path = loc.pathname
+  const croGroups = useCroToolGroups()
+  const croTool = findCroTool(croGroups, path)
+  const croGroup = findCroGroup(croGroups, path)
+  const onTools = path === '/cro/tools'
+  const croToolPrefixes = croGroups.flatMap((g) => g.tools.flatMap((x) => x.prefixes))
 
   const products: Product[] = [
     {
@@ -184,81 +180,80 @@ export function useProducts(): Product[] {
       ],
     },
     {
+      // Pazarlama = müşteriye giden mesajlar: WhatsApp / SMS / e-posta toplu gönderim, otomasyonlar, raporlar, İYS.
+      // Site widget'ları (oyun, kargo, duyuru, kategori zekâsı, 360) CRO > Site Araçları'nda.
       key: 'marketing',
       label: t('products.marketing'),
       icon: Rocket,
       chip: 'bg-emerald-100 text-emerald-600',
-      prefixes: ['/marketing', '/wheel', '/shipping-widget', '/announce-widget', '/category-intelligence', '/product-360'],
+      prefixes: ['/marketing'],
       groups: [
         {
-          title: t('nav.marketingAutomation'),
           items: [
             { to: '/marketing', icon: Sparkles, label: t('nav.marketingOverview'), end: true, show: hasPermission('marketing') },
+          ],
+        },
+        {
+          title: t('nav.marketingSendGroup'),
+          items: [
+            { to: '/marketing/campaigns', icon: Send, label: t('nav.marketingCampaigns'), show: hasPermission('marketing') },
             { to: '/marketing/automations', icon: Zap, label: t('nav.automations'), show: hasPermission('marketing') },
+          ],
+        },
+        {
+          title: t('nav.marketingAudienceGroup'),
+          items: [
             { to: '/marketing/segments', icon: Users2, label: t('nav.segments'), show: hasPermission('marketing') },
-            { to: '/marketing/campaigns', icon: Send, label: t('nav.campaigns'), show: hasPermission('marketing') },
-            { to: '/marketing/analytics', icon: BarChart3, label: t('nav.marketingAnalytics'), show: hasPermission('marketing') },
-            { to: '/marketing/settings', icon: Settings2, label: t('nav.marketingSettings'), show: hasPermission('marketing') },
             { to: '/marketing/iys', icon: ShieldCheck, label: t('nav.iys'), show: hasPermission('marketing') },
           ],
         },
         {
-          title: t('nav.widgetsGroup'),
+          title: t('nav.marketingReportGroup'),
           items: [
-            { to: '/wheel', icon: Disc3, label: t('nav.wheel'), show: hasPermission('marketing') },
-            { to: '/shipping-widget', icon: Truck, label: t('nav.shippingWidget'), show: hasPermission('marketing') },
-            { to: '/announce-widget', icon: BellRing, label: t('nav.otherWidgets'), show: hasPermission('marketing') },
+            { to: '/marketing/analytics', icon: BarChart3, label: t('nav.marketingAnalytics'), show: hasPermission('marketing') },
           ],
         },
-        // AI Chatbot ve Akıllı Arama kendi ana başlıkları altında — ileride alt sayfaları çoğalacak
         {
-          title: t('nav.otherGroup'),
+          title: t('products.settings'),
           items: [
-            { to: '/category-intelligence', icon: FolderTree, label: t('nav.categoryIntelligence'), show: hasPermission('marketing') },
-            { to: '/product-360/demo', icon: Rotate3d, label: t('nav.product360'), show: su },
+            { to: '/marketing/settings', icon: Settings2, label: t('nav.marketingSettings'), show: hasPermission('marketing') },
           ],
         },
       ],
     },
     {
-      // CRO — Dönüşüm Oranı Optimizasyonu: huni özeti + aksiyon planı + otomatik site denetimi
+      // CRO — sade menü: Özet · Site Araçları (tüm widget'lar tek katalog sayfasında, /cro/tools) · Denetim · Aksiyon Planı.
+      // Bir araç sayfasındayken menüde Site Araçları altında o araç girintili görünür (yanında ⓘ).
       key: 'cro',
       label: t('products.cro'),
       icon: Gauge,
       chip: 'bg-orange-100 text-orange-600',
-      prefixes: ['/cro', '/search-insights'],
+      alsoFor: ['marketing'],
+      prefixes: ['/cro', ...croToolPrefixes],
       groups: [
         {
-          title: t('nav.analysisGroup'),
           items: [
             { to: '/cro', icon: Gauge, label: t('nav.croOverview'), end: true, show: hasPermission('cro') },
-            { to: '/cro/audit', icon: ScanSearch, label: t('nav.croAudit'), show: hasPermission('cro') },
           ],
         },
-        // Site deneyimi: mağazadaki tema öğelerini Yunbi verisiyle değiştiren widget'lar (filtre, arama; sırada ürün öneri)
+        // Site Araçları: kategori bağlantıları /cro/tools sayfasındaki ilgili bölüme kaydırır; araç sayfasındayken
+        // kategorisi aktif görünür ve araç altında girintili durur (yanında ⓘ)
         {
-          title: t('nav.siteExperienceGroup'),
+          title: t('nav.croTools'),
           items: [
-            { to: '/cro/filter', icon: SlidersHorizontal, label: t('nav.croFilter'), show: hasPermission('cro') },
-            { to: '/search-insights', icon: Search, label: t('nav.smartSearch'), show: hasPermission('cro') },
-            { to: '/cro/menu', icon: LayoutGrid, label: t('nav.croMenu'), show: hasPermission('cro') },
-            { to: '/cro/bottombar', icon: PanelBottom, label: t('nav.croBottomBar'), show: hasPermission('cro') },
-            { to: '/cro/hero', icon: Flame, label: t('nav.croHero'), show: hasPermission('cro') },
-            { to: '/cro/flash', icon: Zap, label: t('nav.croFlash'), show: hasPermission('cro') },
-            { to: '/cro/gallery', icon: Images, label: t('nav.croGallery'), show: hasPermission('cro') },
-            { to: '/cro/badges', icon: BadgePercent, label: t('nav.croBadges'), show: hasPermission('cro') },
-            { to: '/cro/variant', icon: Ruler, label: t('nav.croVariant'), show: hasPermission('cro') },
-            { to: '/cro/cart', icon: ShoppingBasket, label: t('nav.croCart'), show: hasPermission('cro') },
-            { to: '/cro/app', icon: Smartphone, label: t('nav.croAppPromo'), show: hasPermission('cro') },
-            { to: '/cro/notfound', icon: Ghost, label: t('nav.croNotFound'), show: hasPermission('cro') },
-            { to: '/cro/foryou', icon: Sparkles, label: t('nav.croForYou'), show: hasPermission('cro') },
-            { to: '/cro/welcome', icon: Gift, label: t('nav.croWelcome'), show: hasPermission('cro') },
-          ],
-        },
-        {
-          title: t('nav.managementGroup'),
-          items: [
-            { to: '/cro/actions', icon: ClipboardList, label: t('nav.croActions'), show: hasPermission('cro') },
+            {
+              to: '/cro/tools', icon: LayoutGrid, label: t('nav.croToolsAll'), active: onTools && !loc.hash,
+              show: hasPermission('cro') || hasPermission('marketing'),
+            },
+            ...croGroups.flatMap((g) => [
+              {
+                to: `/cro/tools#${g.key}`, icon: g.icon, label: g.navTitle,
+                active: (onTools && loc.hash === `#${g.key}`) || croGroup?.key === g.key, show: true,
+              },
+              ...(croTool && croGroup?.key === g.key
+                ? [{ to: croTool.to, icon: croTool.icon, label: croTool.label, sub: true, active: true, show: true, tool: croTool }]
+                : []),
+            ]),
           ],
         },
       ],
@@ -298,7 +293,7 @@ export function useProducts(): Product[] {
 
   // Tenant ürün aboneliği: 7 üründen yalnızca sahip olunanlar görünür
   const subscribed = products.filter(
-    (p) => p.key === 'overview' || p.key === 'settings' || hasProduct(p.subscription ?? p.key)
+    (p) => p.key === 'overview' || p.key === 'settings' || hasProduct(p.subscription ?? p.key) || !!p.alsoFor?.some(hasProduct)
   )
 
   // Görünür öğesi olmayan ürünler ray'de gizlenir
@@ -431,14 +426,16 @@ export default function ProductNav({ mobileOpen, onClose }: ProductNavProps) {
                     className={({ isActive }) =>
                       clsx(
                         'flex items-center gap-2.5 px-3 py-2 rounded-xl text-[13px] transition-colors mb-0.5',
-                        isActive
+                        item.sub && 'ml-5 border-l border-[var(--line)] rounded-l-none',
+                        (item.active ?? isActive)
                           ? 'bg-[var(--primary-soft)] text-[var(--primary-strong)] font-semibold'
                           : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 font-medium'
                       )
                     }
                   >
-                    <item.icon size={16} strokeWidth={1.9} />
-                    {item.label}
+                    <item.icon size={item.sub ? 14 : 16} strokeWidth={1.9} />
+                    <span className="truncate">{item.label}</span>
+                    {item.tool && <ToolInfo tool={item.tool} className="ml-auto" />}
                   </NavLink>
                 ))}
               </div>

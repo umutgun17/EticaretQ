@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { Gauge, Loader2, Settings, ArrowUpRight, ArrowDownRight, MousePointerClick, Eye, ShoppingCart, CreditCard, ShoppingBag, Smartphone, Monitor, Tablet, ClipboardList, ScanSearch, ArrowRight, AlertTriangle, CheckCircle2, Circle } from 'lucide-react'
+import { Gauge, Loader2, Settings, ArrowUpRight, ArrowDownRight, MousePointerClick, Eye, ShoppingCart, CreditCard, ShoppingBag, Smartphone, Monitor, Tablet, ArrowRight, AlertTriangle, CheckCircle2, Circle } from 'lucide-react'
 import clsx from 'clsx'
-import { croApi, fmtNum, fmtTl, PAGE_TYPE_LABELS, STATUS_CLASSES, STATUS_LABELS, type CroOverview, type CroStatus } from '@/lib/croApi'
+import { croApi, fmtNum, fmtTl, type CroOverview } from '@/lib/croApi'
 
 type Period = '7d' | '30d' | '90d'
 
@@ -224,11 +224,14 @@ export default function CroOverviewPage() {
       )}
 
       {!loading && data && (
-        <div className="grid grid-cols-1 xl:grid-cols-3 gap-5">
-          {/* Yunbi araçları */}
-          <div className="xl:col-span-2 bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-            <h2 className="font-bold text-gray-900 mb-3">Yunbi CRO araçları</h2>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div>
+          {/* Site araçları */}
+          <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
+            <div className="flex items-center justify-between mb-3">
+              <h2 className="font-bold text-gray-900">Site araçları</h2>
+              <Link to="/cro/tools" className="text-xs font-semibold text-[var(--primary-strong)]">Tümünü gör</Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-2">
               {data.tools.map((tool) => (
                 <Link key={tool.key} to={tool.url} className="flex items-center gap-3 rounded-xl border border-gray-100 p-3 hover:bg-[var(--app-bg)] transition-colors">
                   {tool.enabled ? <CheckCircle2 size={18} className="text-emerald-500 shrink-0" /> : <Circle size={18} className="text-gray-300 shrink-0" />}
@@ -248,51 +251,6 @@ export default function CroOverviewPage() {
             </div>
           </div>
 
-          {/* Aksiyon + denetim */}
-          <div className="space-y-5">
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="font-bold text-gray-900 flex items-center gap-2"><ClipboardList size={17} /> Aksiyon planı</h2>
-                <Link to="/cro/actions" className="text-xs font-semibold text-[var(--primary-strong)]">Tümü</Link>
-              </div>
-              <div className="flex flex-wrap gap-1.5 mb-3">
-                {(Object.keys(STATUS_LABELS) as CroStatus[]).map((st) => (
-                  <span key={st} className={clsx('text-[11px] font-semibold rounded-full px-2 py-0.5', STATUS_CLASSES[st])}>{STATUS_LABELS[st]} {data.actions.counts[st] ?? 0}</span>
-                ))}
-              </div>
-              {data.actions.top.length === 0 ? (
-                <p className="text-sm text-gray-500">Henüz aksiyon yok. <Link to="/cro/actions" className="text-[var(--primary-strong)] font-semibold">Katalogdan ekle</Link>.</p>
-              ) : (
-                <ul className="space-y-2">
-                  {data.actions.top.map((a) => (
-                    <li key={a.id} className="text-sm">
-                      <div className="flex items-start gap-2">
-                        <span className="mt-0.5 text-[10px] font-bold rounded-md bg-orange-100 text-orange-700 px-1.5 py-0.5 shrink-0">ICE {a.impact * a.confidence * a.ease}</span>
-                        <div className="min-w-0"><p className="text-gray-800 leading-snug">{a.title}</p>{a.expected_uplift && <p className="text-[11px] text-gray-400">{a.expected_uplift}</p>}</div>
-                      </div>
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </div>
-
-            <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-5">
-              <div className="flex items-center justify-between mb-3">
-                <h2 className="font-bold text-gray-900 flex items-center gap-2"><ScanSearch size={17} /> Site denetimi</h2>
-                <Link to="/cro/audit" className="text-xs font-semibold text-[var(--primary-strong)]">Detay</Link>
-              </div>
-              {data.audit ? (
-                <div className="flex items-center gap-4">
-                  <div className={clsx('w-16 h-16 rounded-2xl flex items-center justify-center text-2xl font-extrabold', data.audit.avg_score >= 80 ? 'bg-emerald-100 text-emerald-700' : data.audit.avg_score >= 60 ? 'bg-amber-100 text-amber-700' : 'bg-rose-100 text-rose-700')}>{data.audit.avg_score}</div>
-                  <div className="text-xs text-gray-500 space-y-0.5">
-                    {data.audit.pages.map((p) => <p key={p.page_type}><b className="text-gray-700">{PAGE_TYPE_LABELS[p.page_type] ?? p.page_type}</b> {p.score}/100</p>)}
-                  </div>
-                </div>
-              ) : (
-                <p className="text-sm text-gray-500">Henüz denetim çalıştırılmadı. <Link to="/cro/audit" className="text-[var(--primary-strong)] font-semibold">Şimdi çalıştır</Link>.</p>
-              )}
-            </div>
-          </div>
         </div>
       )}
     </div>

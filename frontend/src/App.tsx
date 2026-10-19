@@ -44,8 +44,7 @@ import WheelCampaignEditPage from '@/pages/wheel/WheelCampaignEditPage'
 import WheelCampaignStatsPage from '@/pages/wheel/WheelCampaignStatsPage'
 import SmartSearchPage from '@/pages/SmartSearchPage'
 import CroOverviewPage from '@/pages/cro/CroOverviewPage'
-import CroActionsPage from '@/pages/cro/CroActionsPage'
-import CroAuditPage from '@/pages/cro/CroAuditPage'
+import CroToolsPage from '@/pages/cro/CroToolsPage'
 import CroFilterPage from '@/pages/cro/CroFilterPage'
 import CroBottomBarPage from '@/pages/cro/CroBottomBarPage'
 import CroMenuPage from '@/pages/cro/CroMenuPage'
@@ -111,8 +110,9 @@ export default function App() {
             <Route path="/wheel/:id/istatistik" element={<WheelCampaignStatsPage />} />
             <Route path="/search-insights" element={<SmartSearchPage />} />
             <Route path="/cro" element={<CroOverviewPage />} />
-            <Route path="/cro/actions" element={<CroActionsPage />} />
-            <Route path="/cro/audit" element={<CroAuditPage />} />
+            <Route path="/cro/tools" element={<CroToolsPage />} />
+            <Route path="/cro/actions" element={<Navigate to="/cro" replace />} />
+            <Route path="/cro/audit" element={<Navigate to="/cro" replace />} />
             <Route path="/cro/filter" element={<CroFilterPage />} />
             <Route path="/cro/bottombar" element={<CroBottomBarPage />} />
             <Route path="/cro/menu" element={<CroMenuPage />} />

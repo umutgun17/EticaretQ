@@ -22,9 +22,10 @@ class TrendyolService
     public function __construct()
     {
         $this->baseUrl = config('trendyol.base_url', 'https://apigw.trendyol.com');
-        $this->sellerId = config('trendyol.seller_id', '');
-        $this->apiKey = config('trendyol.api_key', '');
-        $this->apiSecret = config('trendyol.api_secret', '');
+        // .env'de anahtar yoksa config null döner → string özelliğe null atanıp TypeError olmasın (SaaS: Trendyol bağlamamış firma)
+        $this->sellerId = (string) config('trendyol.seller_id', '');
+        $this->apiKey = (string) config('trendyol.api_key', '');
+        $this->apiSecret = (string) config('trendyol.api_secret', '');
     }
 
     public static function fromChannel(Channel $channel): self

@@ -116,7 +116,14 @@
     "aiReplySettings": "AI & Auto Reply",
     "userActivity": "User Activity",
     "billing": "Billing",
-    "subscriptions": "Subscriptions"
+    "subscriptions": "Subscriptions",
+    "croTools": "Site Tools",
+    "croImproveGroup": "Improve",
+    "marketingSendGroup": "Sending",
+    "marketingAudienceGroup": "Audience",
+    "marketingReportGroup": "Reports",
+    "marketingCampaigns": "Bulk Sends",
+    "croToolsAll": "All tools"
   },
   "roles": {
     "admin": "Admin",

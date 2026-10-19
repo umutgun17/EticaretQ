@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <title>Yunbi Akıllı Arama — Demo (Tonny Black gerçek verisi)</title>
+  <title>EticaretQ Akıllı Arama — Demo</title>
   <style>
     *{box-sizing:border-box}
     body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#f1f5f9;color:#0f172a}
@@ -38,7 +38,7 @@
 </head>
 <body>
   <div class="topbar">
-    <div class="brand">TONNY BLACK <small>DEMO</small></div>
+    <div class="brand">DEMO MAĞAZA <small>DEMO</small></div>
     <button id="demoSearchBtn" class="searchbtn">
       <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"></circle><path d="M21 21l-4-4"></path></svg>
       <span>Ürün, kategori, renk ara…</span>
@@ -47,27 +47,26 @@
   </div>
 
   <div class="banner">
-    ⚙️ <b>TEST SAYFASI</b> — Bu sayfa <b>Yunbi (hub.yunbi.ai)</b> üzerinde çalışır, <b>gerçek Tonny Black kataloğunu</b> kullanır.
-    Canlı tonnyblack.com.tr sitesine hiçbir etkisi yoktur.
+    ⚙️ <b>TEST SAYFASI</b> — Bu sayfa <b>mağazanızın gerçek kataloğunu</b> kullanır.
+    Canlı sitenize hiçbir etkisi yoktur.
     <span id="tplSwitch" style="display:inline-block;margin-left:10px">
       Şablon:
-      <a href="?template=drawer" id="tplDrawer" style="color:#713f12">Yandan Panel</a> ·
-      <a href="?template=fullscreen" id="tplFull" style="color:#713f12">Tam Sayfa</a>
+      <a href="#" data-tpl="drawer" id="tplDrawer" style="color:#713f12">Yandan Panel</a> ·
+      <a href="#" data-tpl="fullscreen" id="tplFull" style="color:#713f12">Tam Sayfa</a>
     </span>
   </div>
 
   <div class="wrap">
-    <h1>Yunbi Akıllı Arama — Demo</h1>
-    <p class="sub">Sağ üstteki <b>arama</b> kutusuna tıkla → sağdan panel açılır (Tonny Black'teki gibi). Boşken son/popüler aramalar; yazınca canlı sonuç.</p>
+    <h1>Akıllı Arama — Demo</h1>
+    <p class="sub">Sağ üstteki <b>arama</b> kutusuna tıkla → sağdan panel açılır. Boşken son/popüler aramalar; yazınca canlı sonuç.</p>
 
     <div class="try">
       <b>Hızlı dene:</b>
-      <span class="q">kırmızı 44</span>
-      <span class="q">siyah spor ayakkabı</span>
-      <span class="q">kadın sandalet 38</span>
-      <span class="q">lacivert 42 erkek</span>
-      <span class="q">rahat sneaker</span>
-      <span class="q">tisört</span>
+      <span class="q">kırmızı</span>
+      <span class="q">siyah</span>
+      <span class="q">indirimli</span>
+      <span class="q">yeni gelenler</span>
+      <span class="q">hediye</span>
     </div>
 
     <div class="feat">
@@ -84,10 +83,11 @@
        data-template YALNIZ önizleme içindir (canlıda şablon panel ayarından gelir). -->
   <script>
     (function () {
-      var t = new URLSearchParams(location.search).get('template');
+      var qs = new URLSearchParams(location.search), t = qs.get('template'), tenant = qs.get('tenant') || '';
+      if (!tenant) { document.querySelector('.wrap').insertAdjacentHTML('afterbegin', '<p style="background:#fef2f2;color:#991b1b;padding:10px 14px;border-radius:10px">Mağaza belirtilmedi — demoyu paneldeki “Demoyu aç” bağlantısından açın.</p>'); }
       var s = document.createElement('script');
       s.src = '/widget/search.js?v=17';
-      s.setAttribute('data-tenant', 'tonnyblack');
+      s.setAttribute('data-tenant', tenant);
       s.setAttribute('data-trigger', '#demoSearchBtn');
       s.setAttribute('data-debug', '1');
       if (t === 'drawer' || t === 'fullscreen') s.setAttribute('data-template', t);
@@ -96,6 +96,7 @@
       var el = document.getElementById(cur);
       if (el) { el.style.fontWeight = '800'; el.style.textDecoration = 'none'; }
     })();
+    document.querySelectorAll('[data-tpl]').forEach(function (a) { a.addEventListener('click', function (e) { e.preventDefault(); var q = new URLSearchParams(location.search); q.set('template', a.getAttribute('data-tpl')); location.search = q.toString(); }); });
     document.querySelectorAll('.q').forEach(function (el) {
       el.addEventListener('click', function () {
         if (window.YunbiSearch) window.YunbiSearch.open(el.textContent.trim());

@@ -145,6 +145,46 @@ class CroController extends Controller
         ];
     }
 
+    /**
+     * Site Araçları sayfası: her aracın açık/kapalı durumu (yalnız okuma, ayar anahtarlarından).
+     * CRO ya da Pazarlama yetkisi yeter — çark/kargo/chatbot sayfaları hâlâ 'marketing' yetkisiyle açılıyor.
+     */
+    public function toolStatus(Request $request): JsonResponse
+    {
+        $user = $request->user();
+        if (! $user->isSuperAdmin() && ! $user->hasPermission('cro') && ! $user->hasPermission('marketing')) {
+            return response()->json(['message' => 'Bu sayfa/işlem için yetkiniz bulunmuyor.'], 403);
+        }
+        $tenant = $this->resolveTenant($request);
+        if (! $tenant) {
+            return response()->json(['message' => 'Tenant yok'], 422);
+        }
+
+        $s = $tenant->settings ?? [];
+        $on = fn ($k) => filter_var($s[$k] ?? false, FILTER_VALIDATE_BOOLEAN);
+
+        return response()->json(['status' => [
+            'search' => $on('search_widget_enabled'),
+            'filter' => $on('filter_widget_enabled'),
+            'menu' => $on('menu_enabled'),
+            'bottombar' => $on('bottombar_enabled'),
+            'notfound' => $on('notfound_enabled'),
+            'badges' => $on('badge_enabled'),
+            'variant' => $on('variant_select_enabled'),
+            'gallery' => $on('gallery_enabled'),
+            'shipping' => $on('shipping_widget_enabled'),
+            'cart' => $on('cart_enabled'),
+            'welcome' => $on('welcome_enabled'),
+            'app' => $on('apppromo_enabled'),
+            'wheel' => DB::table('wheel_campaigns')->where('tenant_id', $tenant->id)->where('status', 'active')->exists(),
+            'flash' => $on('flash_enabled'),
+            'hero' => $on('hero_enabled'),
+            'announce' => $on('announce_widget_enabled'),
+            'foryou' => $on('foryou_enabled'),
+            'category' => $on('category_ranking_enabled'),
+        ]]);
+    }
+
     private function actionSummary(Tenant $tenant): array
     {
         $rows = CroAction::where('tenant_id', $tenant->id)->selectRaw('status, count(*) c')->groupBy('status')->pluck('c', 'status');

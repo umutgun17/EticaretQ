@@ -116,7 +116,14 @@
     "aiReplySettings": "AI & Otomatik Yanıt",
     "userActivity": "Kullanıcı Aktivitesi",
     "billing": "Abonelik ve Faturalama",
-    "subscriptions": "Abonelikler"
+    "subscriptions": "Abonelikler",
+    "croTools": "Site Araçları",
+    "croImproveGroup": "Geliştir",
+    "marketingSendGroup": "Gönderim",
+    "marketingAudienceGroup": "Kitle",
+    "marketingReportGroup": "Raporlar",
+    "marketingCampaigns": "Toplu Gönderim",
+    "croToolsAll": "Tüm araçlar"
   },
   "roles": {
     "admin": "Yönetici",

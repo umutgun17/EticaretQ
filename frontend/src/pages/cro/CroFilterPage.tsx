@@ -264,7 +264,7 @@ export default function CroFilterPage() {
       {/* 3 Tema */}
       <Section step="4" title="Tema" desc="Yazı tipi mağazadan miras alınır; renk, köşe ve çip biçimi buradan. Değişiklikler anında kaydedilir.">
         <div className="grid md:grid-cols-3 gap-3 mb-4">
-          {([['minimal', 'Minimal', 'İnce çizgiler, beyaz zemin, siyah vurgu. Tonny Black gibi monokrom markalar.'], ['soft', 'Soft', 'Açık gri dolgular, yumuşak köşeler, sakin görünüm.'], ['bold', 'Bold', 'Büyük harf başlıklar, koyu çerçeve, vurgu rengi baskın.']] as const).map(([key, label, hint]) => (
+          {([['minimal', 'Minimal', 'İnce çizgiler, beyaz zemin, siyah vurgu. Monokrom markalar için.'], ['soft', 'Soft', 'Açık gri dolgular, yumuşak köşeler, sakin görünüm.'], ['bold', 'Bold', 'Büyük harf başlıklar, koyu çerçeve, vurgu rengi baskın.']] as const).map(([key, label, hint]) => (
             <div key={key} onClick={() => patch('theme', { theme: { preset: key } })} role="button" tabIndex={0} className={clsx('cursor-pointer border-2 rounded-xl p-3', st.theme.preset === key ? 'border-indigo-500 bg-indigo-50/40' : 'border-gray-200 hover:border-indigo-300')}>
               <div className={clsx('rounded-lg p-2 h-16 flex flex-col gap-1.5', key === 'minimal' && 'bg-white border border-gray-200', key === 'soft' && 'bg-gray-50 border border-gray-100', key === 'bold' && 'bg-white border-2 border-gray-900')}>
                 <div className={clsx('h-2 w-14 rounded', key === 'bold' ? 'bg-gray-900' : 'bg-gray-300')} />

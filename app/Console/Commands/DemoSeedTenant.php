@@ -659,7 +659,8 @@ class DemoSeedTenant extends Command
                 'depth' => count($segments) - 1,
                 'url' => '/kategori/'.$this->slugify($path),
                 'is_active' => true,
-                'is_assignable' => count($segments) > 1,
+                // Gerçek kategoriler (kökler dahil) atanabilir; Ticimax'ta yalnız kampanya/vitrin kökleri false olur → Akıllı Menü bunları segment yapmaz
+                'is_assignable' => true,
                 'synced_at' => now(),
                 'created_at' => now(),
                 'updated_at' => now(),

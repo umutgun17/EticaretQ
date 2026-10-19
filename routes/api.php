@@ -292,6 +292,9 @@ Route::middleware(['auth:sanctum', 'tenant', 'subscription', 'throttle:120,1', '
             ->whereNumber('id')->whereNumber('attachment')->name('returns.attachment.download');
     });
 
+    // Site Araçları durum listesi — yetki kontrolü controller'da (CRO veya Pazarlama)
+    Route::get('/cro/tools/status', [\App\Http\Controllers\Api\CroController::class, 'toolStatus']);
+
     Route::middleware('permission:cro')->group(function () {
         Route::get('/cro/overview', [\App\Http\Controllers\Api\CroController::class, 'overview']);
         Route::get('/cro/actions', [\App\Http\Controllers\Api\CroController::class, 'actions']);

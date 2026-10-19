@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Yunbi Sepet Önerisi — Canlı Demo</title>
+<title>EticaretQ Sepet Önerisi — Canlı Demo</title>
 <style>
   *{box-sizing:border-box;margin:0;padding:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Arial,sans-serif}
   body{background:#fafafa;color:#1a1a1f}
@@ -27,14 +27,14 @@
 </style>
 </head>
 <body>
-<header><b>TONNY BLACK</b><nav><span>KADIN</span><span>ERKEK</span><span>ÇOCUK</span><span>FIRSAT</span></nav></header>
+<header><b>DEMO MAĞAZA</b><nav><span>KADIN</span><span>ERKEK</span><span>ÇOCUK</span><span>FIRSAT</span></nav></header>
 <div class="wrap">
   <div class="img"><img id="pimg" src="" alt=""></div>
   <div>
     <h1 id="pname">Yükleniyor…</h1>
     <div class="old" id="pold"></div>
     <div class="price" id="pprice"></div>
-    <div style="font-size:12.5px;color:#777">Numara seç ve sepete ekle — Yunbi öneri paneli açılır.</div>
+    <div style="font-size:12.5px;color:#777">Numara seç ve sepete ekle — öneri paneli açılır.</div>
     <div class="sizes" id="sizes"></div>
     <button class="add" id="btnAdd">SEPETE EKLE</button>
     <button id="btnCo" style="display:block;width:100%;text-align:center;margin-top:10px;border:1.5px solid #111;border-radius:12px;padding:13px;font-size:14.5px;font-weight:700;color:#111;background:#fff;cursor:pointer">ÖDEME ADIMI ÖNERİSİNİ ÖNİZLE (checkout içi bloklar)</button>
@@ -62,7 +62,7 @@
     <div class="note" style="margin-top:10px">Yukarıdaki "sepet"in içine, gerçek checkout sayfasındaki gibi <b>üstte "Sana Özel Teklif"</b> (tek ürün + geri sayan sayaç; buton sepete yenilemesiz ekler, kupon modunda kod otomatik uygulanır) + <b>altta geniş grid</b> enjekte edilir (canlıda seçici: <code>.basket-main-wrapper</code>). Sayaç sepet imzasına bağlı kalıcıdır; sıfırlamak için: <a href="#" onclick="sessionStorage.removeItem('yunbi_rec_offer_t0');location.reload();return false">sayacı sıfırla</a>.</div>
   </div>
 </div>
-<span class="yb">Yunbi Ürün Öneri demosu</span>
+<span class="yb">Ürün Öneri demosu</span>
 <script>
   var qs = new URLSearchParams(location.search);
   var TENANT = qs.get('tenant') || 'tonnyblack';

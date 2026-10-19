@@ -43,7 +43,7 @@ class TenantAppPromoSettings
         'discount_label' => '%10 İndirim', // büyük vurgu metni
         'eyebrow' => 'UYGULAMAYA ÖZEL',
         'title' => 'Uygulamayı indir, %10 kazan',
-        'subtitle' => 'Kodu yalnızca Tonny Black mobil uygulamasında kullanabilirsin.',
+        'subtitle' => 'Kodu yalnızca mobil uygulamamızda kullanabilirsin.',
         'terms' => '',                     // örn. "Tek kullanımlık · 500 TL ve üzeri · 31 Ekim\'e kadar"
         'valid_until' => null,             // Y-m-d — doluysa panelde/widget'ta "…'e kadar" ve sayaç
         'ios_url' => '',

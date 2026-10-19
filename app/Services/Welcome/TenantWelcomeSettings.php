@@ -17,7 +17,7 @@ class TenantWelcomeSettings
         'percent' => 10,
         'eyebrow' => 'HOŞ GELDİN',
         'title' => 'İlk alışverişine %10 hediye',
-        'text' => 'Boise dünyasına hoş geldin. Kodunu al, ilk siparişinde ödeme adımında kullan.',
+        'text' => 'Mağazamıza hoş geldin. Kodunu al, ilk siparişinde ödeme adımında kullan.',
         'cta' => 'Kodumu al',
         'revealed_title' => 'Kodun hazır',
         'revealed_text' => 'Ödeme adımındaki kupon alanına yaz. İlk siparişinde, tek sefer geçerli.',

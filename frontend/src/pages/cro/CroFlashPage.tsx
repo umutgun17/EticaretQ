@@ -15,8 +15,8 @@ const LAYOUTS: Record<string, { label: string; desc: string; best: string }> = {
   stories: { label: 'Hikâye', desc: 'Tam görselli dikey kartlar, fiyat görselin üstünde. Instagram hikâye hissi.', best: 'Görseli güçlü ürünler, genç kitle, mobil.' },
 }
 const PRESETS: Record<string, { label: string; desc: string; accent: string; accent2: string; bg: string; ink: string; card_bg: string; dark_cards: boolean; rain: boolean }> = {
-  tonny: { label: 'Tonny Siyah', desc: 'Marka siyahı + kampanya kırmızısı, beyaz kartlar. Tonny Black için varsayılan.', accent: '#e3001b', accent2: '#000000', bg: '#1a1a1a', ink: '#111111', card_bg: '#ffffff', dark_cards: false, rain: true },
-  tonnywhite: { label: 'Tonny Beyaz', desc: 'Site zeminiyle aynı beyaz, siyah yazı, kırmızı vurgu. Sayfayla bütünleşir.', accent: '#e3001b', accent2: '#ebebeb', bg: '#ffffff', ink: '#111111', card_bg: '#ffffff', dark_cards: false, rain: false },
+  tonny: { label: 'Klasik Siyah', desc: 'Siyah zemin + kampanya kırmızısı, beyaz kartlar.', accent: '#e3001b', accent2: '#000000', bg: '#1a1a1a', ink: '#111111', card_bg: '#ffffff', dark_cards: false, rain: true },
+  tonnywhite: { label: 'Klasik Beyaz', desc: 'Site zeminiyle aynı beyaz, siyah yazı, kırmızı vurgu. Sayfayla bütünleşir.', accent: '#e3001b', accent2: '#ebebeb', bg: '#ffffff', ink: '#111111', card_bg: '#ffffff', dark_cards: false, rain: false },
   rain: { label: 'Yağmur', desc: 'Lacivert-mavi, yağmur çizgileri. Havaya özel kampanya.', accent: '#2563eb', accent2: '#0b1a3f', bg: '#102454', ink: '#111827', card_bg: '#ffffff', dark_cards: false, rain: true },
   night: { label: 'Gece', desc: 'Siyah-mor, koyu kartlar. "Bu geceye özel" hissi.', accent: '#a855f7', accent2: '#07060d', bg: '#1a1230', ink: '#f5f5f7', card_bg: '#1d1830', dark_cards: true, rain: true },
   red: { label: 'Kırmızı', desc: 'Kampanya kırmızısı + siyah. 10/10 kreatifleriyle uyumlu.', accent: '#e3001b', accent2: '#0f0f0f', bg: '#2a0a0e', ink: '#111827', card_bg: '#ffffff', dark_cards: false, rain: false },
@@ -213,7 +213,7 @@ export default function CroFlashPage() {
             <label className="text-xs font-semibold text-gray-600 block mb-1">Tema kodu</label>
             <div className="relative"><pre className="bg-gray-900 text-emerald-300 text-xs rounded-xl p-3 overflow-x-auto whitespace-pre-wrap break-all">{embed}</pre>
               <button onClick={copy} className="absolute top-2 right-2 bg-white/10 hover:bg-white/20 text-white rounded-lg p-1.5">{copied ? <Check size={14} /> : <Copy size={14} />}</button></div>
-            <p className="text-[11px] text-gray-500 mt-2">Tonny Black’te masaüstü slider <code>#sliderblok_0</code> (mobilde zaten gizli) → vitrin mobilde sayfanın ilk bloğu olur. Her kod değişikliğinde <code>?v</code> artırılır (Cloudflare önbelleği).</p>
+            <p className="text-[11px] text-gray-500 mt-2">Ticimax temalarında masaüstü slider genellikle <code>#sliderblok_0</code>'dır; vitrin onun yerine geçer. Her kod değişikliğinde <code>?v</code> artırılır (Cloudflare önbelleği).</p>
           </div>
         </div>
       </Section>
@@ -242,7 +242,7 @@ export default function CroFlashPage() {
           <div><label className="text-xs font-semibold text-gray-600 block mb-1">Köşe yuvarlaklığı / Genişlik (px)</label><div className="flex gap-2"><input className={clsx(inputCls, 'w-20')} value={nums.radius ?? ''} onChange={(e) => setNums((s) => ({ ...s, radius: e.target.value }))} /><input className={clsx(inputCls, 'flex-1')} value={nums.container_width ?? ''} onChange={(e) => setNums((s) => ({ ...s, container_width: e.target.value }))} placeholder="0 = tam" /></div></div>
           <Field label="Yazı tipi (boş = mağaza)" k="font" store={themeTexts} setStore={setThemeTexts} placeholder="Inter, sans-serif" w="lg:col-span-2" />
           <Toggle on={st.theme.rain} onChange={(v) => patch('theme', { theme: { rain: v } })} label="Yağmur animasyonu" hint="Saf CSS; hareket azaltma tercihinde kapanır." />
-          <div><label className="text-xs font-semibold text-gray-600 block mb-1">Genişlik</label><Seg value={st.theme.width || 'container'} options={[['full', 'Tam genişlik (Tonny)'], ['container', 'Kutu']]} onChange={(v) => patch('theme', { theme: { width: v } })} /><p className="text-[11px] text-gray-500 mt-1">Tam genişlik: kenardan kenara, köşe yok; içerik yine "Genişlik (px)" değerinde ortalanır.</p></div>
+          <div><label className="text-xs font-semibold text-gray-600 block mb-1">Genişlik</label><Seg value={st.theme.width || 'container'} options={[['full', 'Tam genişlik'], ['container', 'Kutu']]} onChange={(v) => patch('theme', { theme: { width: v } })} /><p className="text-[11px] text-gray-500 mt-1">Tam genişlik: kenardan kenara, köşe yok; içerik yine "Genişlik (px)" değerinde ortalanır.</p></div>
           <button onClick={() => patch('theme', { theme: { accent: themeTexts.accent, bg: themeTexts.bg, accent2: themeTexts.accent2, font: themeTexts.font, radius: num('radius', 18), container_width: num('container_width', 1200) } })} className="h-10 rounded-xl bg-[var(--primary-strong)] text-white text-sm font-semibold">{saving === 'theme' ? <Loader2 size={14} className="animate-spin mx-auto" /> : 'Renkleri kaydet'}</button>
         </div>
       </Section>

@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="robots" content="noindex,nofollow">
-  <title>Yunbi Flaş İndirim Vitrini — Demo</title>
+  <title>EticaretQ Flaş İndirim Vitrini — Demo</title>
   <style>
     *{box-sizing:border-box}
     body{margin:0;font-family:-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:#fff;color:#111827}
@@ -56,7 +56,7 @@
     var themeJson = q.get('theme') || '', rulesJson = q.get('rules') || '';
     var brand = q.get('brand') || 'MAĞAZANIZ';
     var LAYOUTS = [['spotlight', 'Spotlight'], ['grid', 'Izgara'], ['rail', 'Ray'], ['split', 'Poster'], ['tabs', 'Sekmeli'], ['stories', 'Hikâye']];
-    var PRESETS = [['tonny', 'Tonny Siyah', '#e3001b'], ['tonnywhite', 'Tonny Beyaz', '#ffffff'], ['rain', 'Yağmur', '#2563eb'], ['night', 'Gece', '#a855f7'], ['red', 'Kırmızı', '#e3001b'], ['ember', 'Kor', '#f97316'], ['forest', 'Orman', '#22c55e'], ['mono', 'Mono', '#111111']];
+    var PRESETS = [['tonny', 'Klasik Siyah', '#e3001b'], ['tonnywhite', 'Klasik Beyaz', '#ffffff'], ['rain', 'Yağmur', '#2563eb'], ['night', 'Gece', '#a855f7'], ['red', 'Kırmızı', '#e3001b'], ['ember', 'Kor', '#f97316'], ['forest', 'Orman', '#22c55e'], ['mono', 'Mono', '#111111']];
     var svg = { search: '<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>', heart: '<svg viewBox="0 0 24 24"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10z"/></svg>', bag: '<svg viewBox="0 0 24 24"><path d="M6 7h12l1 14H5L6 7z"/><path d="M9 7a3 3 0 0 1 6 0"/></svg>', img: '<svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="m3 16 5-5 4 4 3-3 6 6"/></svg>' };
     var tones = ['a', 'b', 'c', 'd', 'b', 'a', 'd', 'c'];
     var ctl = q.get('ctl') !== '0' ? '<div class="ctl"><b>YERLEŞİM</b>' + LAYOUTS.map(function (l) { return '<button data-layout="' + l[0] + '">' + l[1] + '</button>'; }).join('') +
