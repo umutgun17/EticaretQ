@@ -12,7 +12,6 @@ import {
   MessagesSquare,
   Rocket,
   Settings,
-  Bot,
   RotateCcw,
   MessageSquareText,
   FileBarChart2,
@@ -20,7 +19,6 @@ import {
   Scale,
   BarChart3,
   Package,
-  Globe,
   Smartphone,
   Sparkles,
   Gift,
@@ -44,8 +42,6 @@ import {
   Heart,
   ShieldCheck,
   Gauge,
-  KeyRound,
-  FileSearch,
   ClipboardList,
   ScanSearch,
   SlidersHorizontal,
@@ -263,33 +259,6 @@ export function useProducts(): Product[] {
           title: t('nav.managementGroup'),
           items: [
             { to: '/cro/actions', icon: ClipboardList, label: t('nav.croActions'), show: hasPermission('cro') },
-          ],
-        },
-      ],
-    },
-    {
-      // SEO & GEO — arama motoru + yapay zekâ asistanı görünürlüğü: site taraması, sayfa analizi, AI görünürlük; sırada hız, Search Console, aksiyon planı, ajan
-      key: 'seo',
-      label: t('products.seo'),
-      icon: Globe,
-      chip: 'bg-violet-100 text-violet-600',
-      prefixes: ['/seo'],
-      groups: [
-        {
-          title: t('nav.analysisGroup'),
-          items: [
-            { to: '/seo', icon: Globe, label: t('nav.seoOverview'), end: true, show: hasPermission('seo') },
-            { to: '/seo/pages', icon: FileSearch, label: t('nav.seoPages'), show: hasPermission('seo') },
-            { to: '/seo/geo', icon: Sparkles, label: t('nav.seoGeo'), show: hasPermission('seo') },
-            { to: '/seo/performance', icon: Gauge, label: t('nav.seoPerformance'), show: hasPermission('seo') },
-            { to: '/seo/keywords', icon: KeyRound, label: t('nav.seoKeywords'), show: hasPermission('seo') },
-          ],
-        },
-        {
-          title: t('nav.managementGroup'),
-          items: [
-            { to: '/seo/actions', icon: ClipboardList, label: t('nav.seoActions'), show: hasPermission('seo') },
-            { to: '/seo/agent', icon: Bot, label: t('nav.seoAgent'), show: hasPermission('seo') },
           ],
         },
       ],
